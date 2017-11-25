@@ -19,7 +19,8 @@ public class GraphTester
 	      myGraph1.addEdge("G", "K", 0);   myGraph1.addEdge("G", "L", 0);
 	      myGraph1.addEdge("H", "M", 0);   myGraph1.addEdge("H", "N", 0);
 	      myGraph1.addEdge("I", "N", 0);
-
+	      
+	      System.out.print();
 	      myGraph1.showAdjTable();
 
 
