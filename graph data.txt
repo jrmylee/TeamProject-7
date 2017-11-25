@@ -1,0 +1,29 @@
+710 Dado St, San Jose, CA 95131(origin)
+2 M
+1786 Mccluhan Way San Jose, CA 95132
+3 M
+1841 Northwest Cir San Jose, CA 95131
+4.2 M
+2771 Middleborough Cir San Jose, CA 95132
+6 M
+1270 Lodestone Dr San Jose, CA 95132
+1.4 M
+2969 Zion Ln San Jose, CA 95132
+.45 M
+2956 Heidi Dr San Jose, CA 95132
+7 M
+2907 Cortina Dr San Jose, CA 95132
+.5 M
+2423 Stearman Ln San Jose, CA 95132
+3.4 M
+2703 Mosswood Dr San Jose, CA 95132
+6 M
+3177 Vesuvius Ln San Jose, CA 95132
+2.2 M
+3195 Lenark Dr San Jose, CA 95132
+1.2 M
+3373 Onslow Way San Jose, CA 95132
+3 M	
+3466 Suncrest Ave San Jose, CA 95132
+3.4 M
+3452 Whitman Way San Jose, CA 95132
