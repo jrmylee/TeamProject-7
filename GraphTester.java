@@ -2,17 +2,20 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.Map.Entry;
 import java.text.*;
 
 
 //------------------------------------------------------
 public class GraphTester
 {
-<<<<<<< HEAD
 	// -------  main --------------
 	public static void main(String[] args)
 	{
-		openInputFile();
+		
+		
+		Fleur<String> fleurGraph = fillFleur();
+		fleurGraph.showAdjTable();
 		// build graph
 		Graph<String> myGraph1 = new Graph<String>();
 		myGraph1.addEdge("A", "B", 0);   myGraph1.addEdge("A", "C", 0);  myGraph1.addEdge("A", "D", 0);
@@ -27,7 +30,59 @@ public class GraphTester
 		myGraph1.showAdjTable();
 
 
+	}
+	
+	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
+	* 	street itself and the two other streets it crosses. Vertices are named using the name of the street/the other street it crosses.
+	* 	(Ex. street 1 crosses street 2 and street 3 the two vertices are street 1/street 2 and street 1/street 3)
+	* 	These pieces are then checked to ensure that an intersection is not the same as another swapped(Ex. Street 1/street 2 == street 2/street 1)
+	* 	and corrected if so. All relevant edges are then added to the Fleur object
+	*	@return	Fleur<String> a new fleur graph that has been filled with the information from the txt file that was
+	*	read in
+	*	@author	Andrew Goodman
+	*
+	*/
+	
+	public static Fleur<String> fillFleur(){
+		/* TO-DO
+		* currently adds extra empty vertices without linked edges
+		* does not properly handle swapped street/intersection 100%
+		*/
+		Scanner fileScan = openInputFile();
+		Fleur<String> newFleur = new Fleur<String>();
+		ArrayList<String> previousStreets = new ArrayList<String>();
+		while(fileScan != null && fileScan.hasNext()) {
+			String line = fileScan.nextLine();
+			String streetName = line.split("from")[0].trim();
+			String firstInterSec = line.split("from")[1].split("to")[0].trim();
+			String secondInterSec = line.split("from")[1].split("to")[1].trim();
+			String fullInter1 = streetName+"/"+firstInterSec;
+			String fullInter2 = streetName+"/"+secondInterSec;
+			Boolean sameFirst = false;
+			Boolean sameSecond = false;
+			if(previousStreets.contains(firstInterSec+"/"+streetName)){
+				fullInter1 = firstInterSec+"/"+streetName;
+				sameFirst = true;
+				newFleur.addEdge(firstInterSec+"/"+streetName, fullInter2, 0);
+			}else {
+				System.out.println("adding: " + streetName+"/"+firstInterSec);
+				previousStreets.add(streetName+"/"+firstInterSec);
+			}
+			if(previousStreets.contains(secondInterSec+"/"+streetName)) {
+				fullInter2 = secondInterSec+"/"+streetName;
+				sameSecond = true;
+				newFleur.addEdge(secondInterSec+"/"+streetName, fullInter1, 0);
 
+			}else {
+				System.out.println("adding: " + streetName+"/"+secondInterSec);
+				previousStreets.add(streetName+"/"+secondInterSec);
+			}
+				newFleur.addEdge(fullInter1,fullInter2, 0);
+
+			
+		}
+		return newFleur;
+		
 	}
 
 	public static void output(Scanner scanner){
@@ -59,9 +114,8 @@ public class GraphTester
 	public static void printPath(){
 
 	}
-=======
 	   // -------  main --------------
-	   public static void main(String[] args)
+	  /* public static void main(String[] args)
 	   {
 	      // build graph
 	      Graph<String> myGraph1 = new Graph<String>();
@@ -79,7 +133,6 @@ public class GraphTester
 
 
 
-	   }
->>>>>>> 7168f58697558ad4df6462e968e051a603816044
+	   }*/
 
 }
