@@ -107,7 +107,7 @@ public class Graph<E>
 
       // add dest to source's adjacency list
       src.addToAdjList(dst, cost);
-      //dst.addToAdjList(src, cost); // ADD THIS IF UNDIRECTED GRAPH
+      dst.addToAdjList(src, cost); // ADD THIS IF UNDIRECTED GRAPH
    }
 
    public void addEdge(E source, E dest, int cost)
@@ -146,14 +146,14 @@ public class Graph<E>
 		   Pair<Vertex<E>, Double> endPair = startVertex.adjList.remove(end);
 		   removedOK = endPair!=null;
 	   }
-	   /*// Add if UNDIRECTED GRAPH:
+	   // Add if UNDIRECTED GRAPH:
 		Vertex<E> endVertex = vertexSet.get(end);
 		if( endVertex != null )
 		{
 			Pair<Vertex<E>, Double> startPair = endVertex.adjList.remove(start);
 			removedOK = startPair!=null ;
 		}
-		*/
+		
 
 	   return removedOK;
    }

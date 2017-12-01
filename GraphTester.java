@@ -45,8 +45,7 @@ public class GraphTester
 	
 	public static Fleur<String> fillFleur(){
 		/* TO-DO
-		* currently adds extra empty vertices without linked edges
-		* does not properly handle swapped street/intersection 100%
+		*Should now be working 100% let me know if you find an issue
 		*/
 		Scanner fileScan = openInputFile();
 		Fleur<String> newFleur = new Fleur<String>();
@@ -58,20 +57,14 @@ public class GraphTester
 			String secondInterSec = line.split("from")[1].split("to")[1].trim();
 			String fullInter1 = streetName+"/"+firstInterSec;
 			String fullInter2 = streetName+"/"+secondInterSec;
-			Boolean sameFirst = false;
-			Boolean sameSecond = false;
 			if(previousStreets.contains(firstInterSec+"/"+streetName)){
 				fullInter1 = firstInterSec+"/"+streetName;
-				sameFirst = true;
-				newFleur.addEdge(firstInterSec+"/"+streetName, fullInter2, 0);
 			}else {
 				System.out.println("adding: " + streetName+"/"+firstInterSec);
 				previousStreets.add(streetName+"/"+firstInterSec);
 			}
 			if(previousStreets.contains(secondInterSec+"/"+streetName)) {
 				fullInter2 = secondInterSec+"/"+streetName;
-				sameSecond = true;
-				newFleur.addEdge(secondInterSec+"/"+streetName, fullInter1, 0);
 
 			}else {
 				System.out.println("adding: " + streetName+"/"+secondInterSec);
