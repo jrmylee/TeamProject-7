@@ -1,14 +1,14 @@
 West 46th street from 7th Ave to Broadway
 West 46th street from Broadway to 8th Ave
-8th Ave from West 46th street to West 47th Street
+8th Ave from West 46th street to West 47th street
 West 47th street from 8th Ave to Broadway
 Broadway from West 47th street to West 48th street
 West 48th street from Broadway to 7th Ave
-7th ave from West 48th street to West 47th street
+7th Ave from West 48th street to West 47th street
 West 47th street from 7th Ave to Broadway
 Broadway from West 47th street to West 46th street
-Broadway from West 46th street to west 45th street
-Broadway from West 45th street to west 44th street
+Broadway from West 46th street to West 45th street
+Broadway from West 45th street to West 44th street
 West 44th street from Broadway to 7th Ave
 7th Ave from West 44th street to West 45th street
 7th Ave from West 45th street to West 46th street
