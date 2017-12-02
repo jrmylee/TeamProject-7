@@ -61,16 +61,6 @@ class Fleur<E> extends Graph<E>
 			return null;
 
 		// Initialize currentVertex to that which contains E start
-		/* Note: Simplified to following line...
-		Vertex<E> currentVertex;
-		Iterator<Entry<E, Vertex<E>>> iter;
-		vertsInGraph = vertexSet;
-		for(iter = bertsInGraph.entrySet().iterator(); iter.hasNext();)
-		{
-			currentVertex = iter.next().getValue();
-			if(currentVertex.getData() == start)
-				break;
-		}*/
 		currentVertex = vertexSet.get(start);
 
 		// Check if the current vertex doesn't have anything in it's
@@ -117,17 +107,35 @@ class Fleur<E> extends Graph<E>
 	*			is a bridge
 	*/
 	// TODO: change argument to Vertex, and edge?
+	// TODO: update bridge
 	boolean isBridge(E src, E dst)
 	{
-		boolean isEulerPathWithoutEdge;
+		// Count the number of vertices reachable from src
+		// remove the src-dest edge . Count the number of
+		// vertices reachable from src. If it's less, then
+		// src-dst is a bridge.
+		int reach_with_edge = 0;
+		CountVisitor<Vertex> count_visitor();
+		breadthFirstTraversal(src, count_visitor);
+		reach_with_edge = count_visitor.get_count();
+		
+		
 		// Remove edge, and check if is a Euler Path.
 		remove(src,dst);
-		isEulerPathWithoutEdge = !isEulerPath();
+		
+		// Counting reachable vertices without src-dst edge
+		int reach_without_edge = 0;
+		count_visitor.reset();
+		breadthFirstTraversal(src, count_visitor);
+		reach_without_edge = count_visitor.get_count();
+		
 		// Add edge back, and return
 		addEdge(src,dst,0);	// Cost set to 0 because cost doesn't matter in this 
-					//	implementation. TODO: change, if not true upon
-					//	input implementation
-		return isEulerPathWithoutEdge;
+			
+		if(reach_with_edge > reach_without_edge)
+			return true;
+		else
+			return false;	
 	}
 
 	/**	Checks if there are 0, or 2, odd vertices.
