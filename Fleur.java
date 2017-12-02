@@ -45,6 +45,25 @@ class Edge<E> implements Comparable< Edge<E> >
  */
 class Fleur<E> extends Graph<E>
 {
+	E start = null;
+	
+	public E getStart() {
+		return start;
+	}
+	
+	public void setStart(E elem) {
+		start = elem;
+	}
+	
+	@Override
+	public void addEdge(E source, E dest, double cost)
+	   {
+		super.addEdge(source,dest,cost);
+	      if(start == null) {
+	    	  setStart(source);
+	      }
+	   }
+	
 	/**	Applies Fleur's algorithm to build a Eulerian Circuit starting
 	*	and ending at start.
 	*	@param start data of type E, sets starting vertex to whichever
