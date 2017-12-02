@@ -7,7 +7,7 @@ class CountVisitor<Vertex> implements  Visitor<Vertex>
     int count;	// Counts the number of times visit has been called
 
 	/**
- 	 * Constuctor initializes ocunt to 0.
+ 	 * Constuctor initializes count to 0.
  	 */
 	public CountVisitor()
 	{
