@@ -113,7 +113,7 @@ class Fleur<E> extends Graph<E>
 		// vertices reachable from src. If it's less, then
 		// src-dst is a bridge.
 		int reach_with_edge = 0;
-		CountVisitor<Vertex> count_visitor();
+		Visitor<Vertex> count_visitor = new CountVisitor<>();
 		breadthFirstTraversal(src, count_visitor);
 		reach_with_edge = count_visitor.get_count();
 		

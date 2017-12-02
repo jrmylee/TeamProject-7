@@ -235,10 +235,25 @@ public class Graph<E>
 		   }
 	   }
    } // end breadthFirstTraversalHelper
-
+    /**	Depth First Traversal function
+     *	@author	Jeremy Lee
+     */
    public void depthFirstTraversalHelper(Vertex<E> startVertex, Visitor<E> visitor)
    {
         // YOU COMPLETE THIS (USE THE RECURSIVE ALGORITHM GIVEN FOR LESSON 11 EXERCISE)
+       startVertex.visit();
+       E startData = startVertex.getData();
+       visitor.visit(startData);
+
+       Iterator<Entry<E, Pair<Vertex<E>, Double>>> iter = startVertex.iterator();
+       while(iter.hasNext()){
+           Entry<E, Pair<Vertex<E>, Double>> nextEntry = iter.next();
+           Vertex<E> neighborVertex = nextEntry.getValue().first;
+           if( !neighborVertex.isVisited() )
+           {
+               depthFirstTraversalHelper(neighborVertex, visitor);
+           }
+       }
    }
 
 
@@ -246,6 +261,8 @@ public class Graph<E>
    //         WRITE THE GRAPH's vertices and its
    //         adjacency list TO A TEXT FILE (SUGGEST TO PASS AN
    //        ALREADY OPEN PrintWriter TO THIS) !
+    public void writeToTextFile(){
 
+    }
 
 }

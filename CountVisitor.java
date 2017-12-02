@@ -9,7 +9,7 @@ class CountVisitor<Vertex> implements  Visitor<Vertex>
 	/**
  	 * Constuctor initializes ocunt to 0.
  	 */
-	public Vertex()
+	public CountVisitor()
 	{
 		reset();
 	}
