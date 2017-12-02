@@ -61,14 +61,14 @@ class Fleur<E> extends Graph<E>
 			return null;
 
 		// Initialize currentVertex to that which contains E start
-		currentVertex = vertexSet.get(start);
+		Vertex<E> currentVertex = vertexSet.get(start);
 
 		// Initialize euler circuit ArrayList to be returned.
 		ArrayList<E> eulerCircuit = new ArrayList<E>();
 
 		// End loop when at last vertex The last vertex is the one  with no edges,
 		// since edge are removed as the graph is traversed).
-		while(currVertex.adjList().size() > 0)
+		while(currentVertex.adjList.size() > 0)
 		{
 			// Add the current vertex's data to our circuit
 			eulerCircuit.add(currentVertex.getData());
@@ -78,22 +78,30 @@ class Fleur<E> extends Graph<E>
 			// bridges, set the last edge checked as the next edge to traverse.
 			Iterator<Entry<E, Pair<Vertex<E>, Double>>> edgeIter;
 			Pair<Vertex<E>, Double> edge;
+			
 			boolean nextNonBridgeFound = false;
-			for( edgeIter = currentVertex.adjList.entrySet().iterator();
-			     edgeIter.hasNext() && !nextNonBridgeFound; ) 
+			
+			edgeIter = currentVertex.adjList.entrySet().iterator();
+			edge = edgeIter.next().getValue();
+			
+			do
 			{
 				// Get the next edge
 				edge = edgeIter.next().getValue();
 				
 				// If this is the last edge or a non-bridge				
-				if(!edgeIter.hasNext() || !isBridge(currentVector.getData(), edge.first))
+				if(!edgeIter.hasNext() 
+				   || !isBridge(currentVertex.getData(), edge.first.getData()))
+				{
 					nextNonBridgeFound = true;
-			}
+				}
+			}while( edgeIter.hasNext() && !nextNonBridgeFound);
+			
 			// Use the found edge to set the next vertex
 			currentVertex = edge.first;
 
 			// Remove the edge from the Graph
-			remove(currentVertex.getData() ,edge.first);
+			remove(currentVertex.getData(), edge.first.getData());
 		}
 		return eulerCircuit;
 	}
@@ -113,7 +121,7 @@ class Fleur<E> extends Graph<E>
 		// vertices reachable from src. If it's less, then
 		// src-dst is a bridge.
 		int reach_with_edge = 0;
-		CountVisitor<Vertex> count_visitor();
+		CountVisitor<E> count_visitor = new CountVisitor<E>();
 		breadthFirstTraversal(src, count_visitor);
 		reach_with_edge = count_visitor.get_count();
 		
@@ -150,9 +158,9 @@ class Fleur<E> extends Graph<E>
 
 		if (vertexSet.isEmpty())
 			return false;
-		for( vertIter = vertsInGraph.entrySet().iterator(); vertIterator.hasNext(); )
+		for( vertIter = vertsInGraph.entrySet().iterator(); vertIter.hasNext(); )
 		{
-			vert = vertIter.next();
+			vert = vertIter.next().getValue();
 			if (vert.adjList.size() % 2 == 0)	
 				++oddVertices;
 		}
@@ -162,12 +170,11 @@ class Fleur<E> extends Graph<E>
 			return false;	
 	}
 
-	/**	Checks if every vertex is even. Doesn't check for the option of
-	*	2 odd vertices, since we're looking for a Eulerian circuit,
-	*	not a path.
-	*	@return	boolean		true when all vertices are even
-	*	@author	Ali Masood
-	*/
+	/**	
+	 *  Checks if every vertex is even. 
+	 *	@return	boolean		true when all vertices are even
+	 *	@author	Ali Masood
+	 */
 	boolean isEulerCircuit()
 	{
 		HashMap<E, Vertex<E>> vertsInGraph;
@@ -177,9 +184,9 @@ class Fleur<E> extends Graph<E>
 
 		if (vertexSet.isEmpty())
 			return false;
-		for( vertIter = vertsInGraph.entrySet().iterator(); vertIterator.hasNext(); )
+		for( vertIter = vertsInGraph.entrySet().iterator(); vertIter.hasNext(); )
 		{
-			vert = vertIter.next();
+			vert = vertIter.next().getValue();
 			if (vert.adjList.size() % 2 == 0)	
 				return false;
 		} 
