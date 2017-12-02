@@ -1,4 +1,6 @@
 
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -9,29 +11,114 @@ import java.text.*;
 //------------------------------------------------------
 public class GraphTester
 {
+	public static Scanner userScanner = new Scanner(System.in);
+
 	// -------  main --------------
 	public static void main(String[] args)
 	{
-		
-		
+
+
 		Fleur<String> fleurGraph = fillFleur();
-		fleurGraph.showAdjTable();
-		// build graph
-		Graph<String> myGraph1 = new Graph<String>();
-		myGraph1.addEdge("A", "B", 0);   myGraph1.addEdge("A", "C", 0);  myGraph1.addEdge("A", "D", 0);
-		myGraph1.addEdge("B", "E", 0);   myGraph1.addEdge("B", "F", 0);
-		myGraph1.addEdge("C", "G", 0);
-		myGraph1.addEdge("D", "H", 0);   myGraph1.addEdge("D", "I", 0);
-		myGraph1.addEdge("F", "J", 0);
-		myGraph1.addEdge("G", "K", 0);   myGraph1.addEdge("G", "L", 0);
-		myGraph1.addEdge("H", "M", 0);   myGraph1.addEdge("H", "N", 0);
-		myGraph1.addEdge("I", "N", 0);
+//		fleurGraph.showAdjTable();
+//		// build graph
+//		Graph<String> myGraph1 = new Graph<String>();
+//		myGraph1.addEdge("A", "B", 0);   myGraph1.addEdge("A", "C", 0);  myGraph1.addEdge("A", "D", 0);
+//		myGraph1.addEdge("B", "E", 0);   myGraph1.addEdge("B", "F", 0);
+//		myGraph1.addEdge("C", "G", 0);
+//		myGraph1.addEdge("D", "H", 0);   myGraph1.addEdge("D", "I", 0);
+//		myGraph1.addEdge("F", "J", 0);
+//		myGraph1.addEdge("G", "K", 0);   myGraph1.addEdge("G", "L", 0);
+//		myGraph1.addEdge("H", "M", 0);   myGraph1.addEdge("H", "N", 0);
+//		myGraph1.addEdge("I", "N", 0);
+//
+//		myGraph1.showAdjTable();
 
-		myGraph1.showAdjTable();
-
-
+		runProgram(fleurGraph);
 	}
-	
+
+	/**
+	 * Run Program
+	 */
+	public static void runProgram(Fleur<String> graph){
+		boolean running = true;
+		int res = -1;
+		Edge last = null;
+		while(running){
+			System.out.println("Euler Circuit Vacation Main Menu: ");
+			System.out.println(
+					"1. Read the graph from a text file\u2028\n" +
+					"2. Display the graph\u2028\n" +
+					"3. Solve the graph\u2028\n" +
+					"4. Add an edge to the graph\u2028\n" +
+					"5. Remove an edge from the graph\u2028\n" +
+					"6. Undo the previous removal(s)\u2028\n" +
+					"7. Write the graph to a text file\u2028\n" +
+					"8. Quit" + "\nEnter a number:");
+
+			res = getInteger(userScanner.nextLine());
+
+			if(res!=-1){
+				switch(res){
+					case 1:
+						readGraph();
+						break;
+					case 2:
+						if(graph.isEulerCircuit()){
+							System.out.println("1. Depth First\u2028\n" +
+									"2. Breadth First\u2028\n" +
+									"3. Adjacency List\u2028\n");
+
+						}else{
+							System.out.println("Not an Euler Circuit! ");
+						}
+						break;
+					case 3:
+						graph.applyFleur("");
+						break;
+					case 4:
+						System.out.println("Edge name? ");
+						graph.addEdge(userScanner.nextLine(), "", 0); //add priority?
+						break;
+					case 5:
+						System.out.println("Edge name? ");
+						if(graph.remove(userScanner.nextLine(), "")){
+							System.out.println("Great Success! ");
+						}else {
+							System.out.println("Remove unsuccessful! ");
+						}
+						break;
+					case 6://undo
+						break;
+					case 7:
+						graph.writeToTextFile();
+						break;
+					case 8:
+						running = false;
+						break;
+				}
+			}
+		}
+	}
+
+	public static int getInteger(String str){
+		int res = -1;
+		try
+		{
+			res = Integer.parseInt(str);
+			if(!(res==1||res==2||res==3||res==4||res==5||res==6||res==7||res==8)){
+				return -1;
+			}
+		}
+		catch(NumberFormatException nfe)
+		{
+			System.out.println("Enter a valid number!");
+		}
+		return res;
+	}
+	public static void readGraph(){
+		Scanner scan = openInputFile();
+	}
+
 	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
 	* 	street itself and the two other streets it crosses. Vertices are named using the name of the street/the other street it crosses.
 	* 	(Ex. street 1 crosses street 2 and street 3 the two vertices are street 1/street 2 and street 1/street 3)
@@ -82,7 +169,6 @@ public class GraphTester
 		Scanner input = scanner;
 
 	}
-	public static Scanner userScanner = new Scanner(System.in);
 
 	// opens a text file for input, returns a Scanner:
 	public static Scanner openInputFile()
