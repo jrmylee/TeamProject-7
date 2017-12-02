@@ -54,22 +54,24 @@ class Fleur<E> extends Graph<E>
 	*	@author	Ali Masood
 	*/
 	ArrayList<E> applyFleur(E start)	
-	{
+	{	
+		// Initialize euler circuit ArrayList to be returned.
+		ArrayList<E> eulerCircuit = new ArrayList<E>();
 		
 		// Check if the graph is a Eulerian Circuit.
 		if(!isEulerCircuit())
-			return null;
-
+		{
+			return eulerCircuit;
+		}
+		
 		// Initialize currentVertex to that which contains E start
 		Vertex<E> currentVertex = vertexSet.get(start);
-
-		// Initialize euler circuit ArrayList to be returned.
-		ArrayList<E> eulerCircuit = new ArrayList<E>();
 
 		// End loop when at last vertex The last vertex is the one  with no edges,
 		// since edge are removed as the graph is traversed).
 		while(currentVertex.adjList.size() > 0)
 		{
+			System.out.println("Traversing vertices...");
 			// Add the current vertex's data to our circuit
 			eulerCircuit.add(currentVertex.getData());
 			
@@ -77,15 +79,15 @@ class Fleur<E> extends Graph<E>
 			// If not, set it as the next edge to follow. In case all are
 			// bridges, set the last edge checked as the next edge to traverse.
 			Iterator<Entry<E, Pair<Vertex<E>, Double>>> edgeIter;
-			Pair<Vertex<E>, Double> edge;
+			Pair<Vertex<E>, Double> edge = null;
 			
 			boolean nextNonBridgeFound = false;
-			
 			edgeIter = currentVertex.adjList.entrySet().iterator();
-			edge = edgeIter.next().getValue();
 			
-			do
+			while(edgeIter.hasNext() && !nextNonBridgeFound)
 			{
+				System.out.print("Traversing edges of " + currentVertex.data + ": ");
+				
 				// Get the next edge
 				edge = edgeIter.next().getValue();
 				
@@ -94,14 +96,24 @@ class Fleur<E> extends Graph<E>
 				   || !isBridge(currentVertex.getData(), edge.first.getData()))
 				{
 					nextNonBridgeFound = true;
+					System.out.println(" Nonbridge");
 				}
-			}while( edgeIter.hasNext() && !nextNonBridgeFound);
+				else
+				{
+					System.out.println(" Bridge");
+				}
+			}
 			
-			// Use the found edge to set the next vertex
-			currentVertex = edge.first;
-
+			//Temporarily store the next vertex
+			Vertex<E> temp = edge.first;
+			
 			// Remove the edge from the Graph
 			remove(currentVertex.getData(), edge.first.getData());
+			
+			// Use the found edge to set the next vertex
+			currentVertex = temp;
+
+			
 		}
 		return eulerCircuit;
 	}
@@ -183,13 +195,17 @@ class Fleur<E> extends Graph<E>
 		vertsInGraph = vertexSet;
 
 		if (vertexSet.isEmpty())
+		{
 			return false;
+		}
 		for( vertIter = vertsInGraph.entrySet().iterator(); vertIter.hasNext(); )
 		{
 			vert = vertIter.next().getValue();
-			if (vert.adjList.size() % 2 == 0)	
+			if (vert.adjList.size() % 2 == 1)
+			{
 				return false;
-		} 
+			}
+		}
 		return true;
 	}
 }
