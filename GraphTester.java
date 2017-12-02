@@ -32,8 +32,9 @@ public class GraphTester
 //		myGraph1.addEdge("I", "N", 0);
 //
 //		myGraph1.showAdjTable();
-
-		runProgram(fleurGraph);
+		if(fleurGraph.getStart()!=null){
+			runProgram(fleurGraph);
+		}
 	}
 
 	/**
@@ -44,7 +45,8 @@ public class GraphTester
 		int res = -1;
 		Edge last = null;
 		while(running){
-			System.out.println("Euler Circuit Vacation Main Menu: ");
+			System.out.println("\nEuler Circuit Vacation Main Menu: ");
+
 			System.out.println(
 					"1. Read the graph from a text file\u2028\n" +
 					"2. Display the graph\u2028\n" +
@@ -64,10 +66,7 @@ public class GraphTester
 						break;
 					case 2:
 						if(graph.isEulerCircuit()){
-							System.out.println("1. Depth First\u2028\n" +
-									"2. Breadth First\u2028\n" +
-									"3. Adjacency List\u2028\n");
-
+							displayGraph(graph);
 						}else{
 							System.out.println("Not an Euler Circuit! ");
 						}
@@ -117,6 +116,28 @@ public class GraphTester
 	}
 	public static void readGraph(){
 		Scanner scan = openInputFile();
+	}
+
+	public static void displayGraph(Fleur<String> graph){
+		System.out.println("1. Depth First\u2028\n" +
+				"2. Breadth First\u2028\n" +
+				"3. Adjacency List\u2028\n");
+		int res = getInteger(userScanner.nextLine());
+		switch(res){
+			case 1:
+				System.out.println("\nDepth First Traversal");
+				graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());
+				break;
+			case 2:
+				System.out.println("\nBreadth First Traversal");
+				graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor());
+				break;
+			case 3:
+				System.out.println("\nAdjacency List");
+				graph.showAdjTable();
+				break;
+		}
+
 	}
 
 	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
