@@ -1,11 +1,10 @@
 import java.util.*;
 import java.util.Map.Entry;
 
-/**	The Edge Class
-*	TODO:	class description
-*	@author	Cynthia Lee-Klawender
-*
-*/
+/**	
+ * The Edge Class
+ *	@author	Cynthia Lee-Klawender
+ */
 class Edge<E> implements Comparable< Edge<E> >
 {
 	 Vertex<E> source, dest;
@@ -39,21 +38,22 @@ class Edge<E> implements Comparable< Edge<E> >
 }
 
 
-/**	The Fleur class
-*	TODO: class description
-*	@author	Ali Masood
-*/
+/**	
+ * The Fleur class
+ * Implements Fleury's algorithm for solving Eulerian circuits/paths.
+ *	@author	Ali Masood
+ */
 class Fleur<E> extends Graph<E>
 {
 	/**	Applies Fleur's algorithm to build a Eulerian Circuit starting
 	*	and ending at start.
 	*	@param start data of type E, sets starting vertex to whichever
 	*		contains E start.
-	*	@return	ArrayList<Entry<E>>	an array list of data elements
+	*	@return	ArrayList<E>	an array list of data elements stored
 	*		of type E, in order of visitation.
 	*	@author	Ali Masood
 	*/
-	ArrayList<Entry<E>> applyFleur(E start)	//Maybe E should be Vertex<E>
+	ArrayList<E> applyFleur(E start)	
 	{
 		
 		// Check if the graph is a Eulerian Circuit.
@@ -63,51 +63,49 @@ class Fleur<E> extends Graph<E>
 		// Initialize currentVertex to that which contains E start
 		currentVertex = vertexSet.get(start);
 
-		// Check if the current vertex doesn't have anything in it's
-		// adjacency list. (In the context that a Eulerian Circuit was
-		// initially ppossible, and removing edges as they're traversed
-		// then a vertex with nothing in its adjacencyList should be
-		// the initial vertex).		
-		ArrayList<Vertex<E>> eulerCircuit = new ArrayList<Vertex<E>>();
+		// Initialize euler circuit ArrayList to be returned.
+		ArrayList<E> eulerCircuit = new ArrayList<E>();
+
+		// End loop when at last vertex The last vertex is the one  with no edges,
+		// since edge are removed as the graph is traversed).
 		while(currVertex.adjList().size() > 0)
 		{
-			// Add the current vertex to our circuit
-			eulerCircuit.add(currentVertex);
+			// Add the current vertex's data to our circuit
+			eulerCircuit.add(currentVertex.getData());
 			
-			// For each edge, check if it's a bridge, if not, set
-			// it as the next edge to follow. In case all are
-			// bridges, set the first as the next edge
+			// For each edge, check if it's a bridge.
+			// If not, set it as the next edge to follow. In case all are
+			// bridges, set the last edge checked as the next edge to traverse.
 			Iterator<Entry<E, Pair<Vertex<E>, Double>>> edgeIter;
 			Pair<Vertex<E>, Double> edge;
-			boolean nextEdgeFound = false;
+			boolean nextNonBridgeFound = false;
 			for( edgeIter = currentVertex.adjList.entrySet().iterator();
-			     edgeIter.hasNext() && !nextEdgeFound; ) 
+			     edgeIter.hasNext() && !nextNonBridgeFound; ) 
 			{
-				// Update to the next edge
+				// Get the next edge
 				edge = edgeIter.next().getValue();
 				
 				// If this is the last edge or a non-bridge				
-				if(!edgeIter.hasNext() 
-				   || !isBridge(currentVector.getData(), edge.first))
-					nextEdgeFound = true;
+				if(!edgeIter.hasNext() || !isBridge(currentVector.getData(), edge.first))
+					nextNonBridgeFound = true;
 			}
-			// Set the next vertex to the edge it leads to
+			// Use the found edge to set the next vertex
 			currentVertex = edge.first;
+
 			// Remove the edge from the Graph
 			remove(currentVertex.getData() ,edge.first);
 		}
 		return eulerCircuit;
 	}
 
-	/*	Check if the edge between the supplied source and destination
-	*	is a bridge.
-	*	@param	src	type E	source vertex
-	*	@param	dst	type E	destination vertex
-	*	@return boolean	true when the vertex between the src and dst
-	*			is a bridge
-	*/
-	// TODO: change argument to Vertex, and edge?
-	// TODO: update bridge
+	/**
+     * 	Check if the edge between the supplied source and destination
+	 *	is a bridge.
+	 *	@param	src	type E	source vertex
+	 *	@param	dst	type E	destination vertex
+	 *	@return boolean	true when the vertex between the src and dst
+	 *			is a bridge
+	 */
 	boolean isBridge(E src, E dst)
 	{
 		// Count the number of vertices reachable from src
