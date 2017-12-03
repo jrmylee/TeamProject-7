@@ -21,12 +21,12 @@ class Edge<E> implements Comparable< Edge<E> >
 
 	 Edge( Vertex<E> src, Vertex<E> dst, Integer cst, String nm)
 	 {
-	    this (src, dst, cst.doubleValue());
+	    this (src, dst, cst.doubleValue(),nm);
 	 }
 
 	 Edge()
 	 {
-	    this(null, null, 1.);
+	    this(null, null, 1.,"");
 	 }
 
 	 public String toString(){ return "Edge: "+source.getData() + " to " + dest.getData()
