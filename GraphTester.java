@@ -17,35 +17,20 @@ public class GraphTester
 	public static void main(String[] args)
 	{
 
-
-		Fleur<String> fleurGraph = fillFleur();
-//		fleurGraph.showAdjTable();
-//		// build graph
-//		Graph<String> myGraph1 = new Graph<String>();
-//		myGraph1.addEdge("A", "B", 0);   myGraph1.addEdge("A", "C", 0);  myGraph1.addEdge("A", "D", 0);
-//		myGraph1.addEdge("B", "E", 0);   myGraph1.addEdge("B", "F", 0);
-//		myGraph1.addEdge("C", "G", 0);
-//		myGraph1.addEdge("D", "H", 0);   myGraph1.addEdge("D", "I", 0);
-//		myGraph1.addEdge("F", "J", 0);
-//		myGraph1.addEdge("G", "K", 0);   myGraph1.addEdge("G", "L", 0);
-//		myGraph1.addEdge("H", "M", 0);   myGraph1.addEdge("H", "N", 0);
-//		myGraph1.addEdge("I", "N", 0);
-//
-//		myGraph1.showAdjTable();
-		if(fleurGraph.getStart()!=null){
-			runProgram(fleurGraph);
-		}
+		runProgram();
 	}
 
 	/**
 	 * Run Program
 	 */
-	public static void runProgram(Fleur<String> graph){
+	public static void runProgram(){
 		boolean running = true;
 		int res = -1;
 		Edge last = null;
+		Fleur<String> graph = new Fleur<>();
+		Fleur<String> prevGraph = new Fleur<>();
 		while(running){
-			System.out.println("\nEuler Circuit Vacation Main Menu: ");
+			System.out.println("Euler Circuit Vacation Main Menu: \n");
 
 			System.out.println(
 					"1. Read the graph from a text file\u2028\n" +
@@ -62,7 +47,7 @@ public class GraphTester
 			if(res!=-1){
 				switch(res){
 					case 1:
-						readGraph();
+						graph = prevGraph=fillFleur();
 						break;
 					case 2:
 						if(graph.isEulerCircuit()){
@@ -75,13 +60,23 @@ public class GraphTester
 						graph.applyFleur("");
 						break;
 					case 4:
-						System.out.println("Edge name? ");
-						graph.addEdge(userScanner.nextLine(), "", 0); //add priority?
+						System.out.println("First Intersection? ");
+						String firstInter = userScanner.nextLine();
+						System.out.println("Second Intersection? ");
+						String secondInter = userScanner.nextLine();
+						graph.addEdge(firstInter, secondInter, 0); //add priority?
 						break;
 					case 5:
-						System.out.println("Edge name? ");
-						if(graph.remove(userScanner.nextLine(), "")){
-							System.out.println("Great Success! ");
+						System.out.println("First Intersection? ");
+						firstInter = userScanner.nextLine();
+						System.out.println("Second Intersection? ");
+						secondInter = userScanner.nextLine();
+						graph.addEdge(firstInter, secondInter, 0);
+
+						prevGraph = new Fleur<>();
+
+						if(graph.remove(firstInter, secondInter)){
+							System.out.println("Street between " + firstInter + " and " + secondInter + " was removed! ");
 						}else {
 							System.out.println("Remove unsuccessful! ");
 						}
@@ -114,9 +109,6 @@ public class GraphTester
 		}
 		return res;
 	}
-	public static void readGraph(){
-		Scanner scan = openInputFile();
-	}
 
 	public static void displayGraph(Fleur<String> graph){
 		System.out.println("1. Depth First\u2028\n" +
@@ -125,16 +117,16 @@ public class GraphTester
 		int res = getInteger(userScanner.nextLine());
 		switch(res){
 			case 1:
-				System.out.println("\nDepth First Traversal");
-				graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());
+				System.out.println("\nDepth First Traversal\n");
+				graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());System.out.println();
 				break;
 			case 2:
-				System.out.println("\nBreadth First Traversal");
-				graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor());
+				System.out.println("\nBreadth First Traversal\n");
+				graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor()); System.out.println();
 				break;
 			case 3:
 				System.out.println("\nAdjacency List");
-				graph.showAdjTable();
+				graph.showAdjTable();System.out.println();
 				break;
 		}
 
