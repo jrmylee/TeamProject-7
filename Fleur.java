@@ -153,19 +153,8 @@ class Fleur<E> extends Graph<E>
 		// vertices reachable from src. If it's less, then
 		// src-dst is a bridge.
 		
-		Fleur nF = new Fleur();
-		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator();
-		while(iter.hasNext()) {
-			Entry<E, Vertex<E>> v = iter.next();
-			Vertex<E> newV = new Vertex<E>(v.getValue().getData());
-			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
-			nF.vertexSet.put(v.getKey(), newV);
-		}
-		nF.remove("A","B");
-		System.out.println("NF test");
-		nF.showAdjTable();
-		System.out.println("this test");
-		this.showAdjTable();
+		
+
 		int reach_with_edge = 0;
 		CountVisitor<E> count_visitor = new CountVisitor<E>();
 		breadthFirstTraversal(src, count_visitor);
@@ -173,12 +162,13 @@ class Fleur<E> extends Graph<E>
 		
 		
 		// Remove edge, and check if is a Euler Path.
-		remove(src,dst);
+		Fleur<E> temp_fleur_graph = makeDeepCopy();
+		temp_fleur_graph.remove(src,dst);
 		
 		// Counting reachable vertices without src-dst edge
 		int reach_without_edge = 0;
 		count_visitor.reset();
-		breadthFirstTraversal(src, count_visitor);
+		temp_fleur_graph.breadthFirstTraversal(src, count_visitor);
 		reach_without_edge = count_visitor.get_count();
 		
 		// Add edge back, and return
@@ -189,6 +179,20 @@ class Fleur<E> extends Graph<E>
 		else
 			return false;	
 	}
+
+	Fleur<E> makeDeepCopy()
+	{
+		Fleur nF = new Fleur();
+		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator();
+		while(iter.hasNext()) {
+			Entry<E, Vertex<E>> v = iter.next();
+			Vertex<E> newV = new Vertex<E>(v.getValue().getData());
+			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
+			nF.vertexSet.put(v.getKey(), newV);
+		}
+		return nF;
+	}
+
 
 	/**	Checks if there are 0, or 2, odd vertices.
 	*	@return	boolean	true when 0 or 2 vertices are odd.
