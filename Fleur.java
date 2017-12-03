@@ -101,14 +101,15 @@ class Fleur<E> extends Graph<E>
 			Pair<Vertex<E>, Double> edge = null;
 			
 			boolean nextNonBridgeFound = false;
-			edgeIter = currentVertex.adjList.entrySet().iterator();
+			edgeIter = currentVertex.iterator();
 			
 			while(edgeIter.hasNext() && !nextNonBridgeFound)
 			{
 				System.out.print("Traversing edges of " + currentVertex.data + ": ");
 				
 				// Get the next edge
-				edge = edgeIter.next().getValue();
+				Entry<E, Pair<Vertex<E>, Double>> e = edgeIter.next();
+				edge = e.getValue();
 				
 				// If this is the last edge or a non-bridge				
 				if(!edgeIter.hasNext() 
@@ -151,6 +152,20 @@ class Fleur<E> extends Graph<E>
 		// remove the src-dest edge . Count the number of
 		// vertices reachable from src. If it's less, then
 		// src-dst is a bridge.
+		
+		Fleur nF = new Fleur();
+		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator();
+		while(iter.hasNext()) {
+			Entry<E, Vertex<E>> v = iter.next();
+			Vertex<E> newV = new Vertex<E>(v.getValue().getData());
+			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
+			nF.vertexSet.put(v.getKey(), newV);
+		}
+		nF.remove("A","B");
+		System.out.println("NF test");
+		nF.showAdjTable();
+		System.out.println("this test");
+		this.showAdjTable();
 		int reach_with_edge = 0;
 		CountVisitor<E> count_visitor = new CountVisitor<E>();
 		breadthFirstTraversal(src, count_visitor);
