@@ -9,15 +9,17 @@ class Edge<E> implements Comparable< Edge<E> >
 {
 	 Vertex<E> source, dest;
 	 double cost;
+	 String name;
 
-	 Edge( Vertex<E> src, Vertex<E> dst, Double cst)
+	 Edge( Vertex<E> src, Vertex<E> dst, Double cst, String nm)
 	 {
 	    source = src;
 	    dest = dst;
 	    cost = cst;
+	    name = nm;
 	 }
 
-	 Edge( Vertex<E> src, Vertex<E> dst, Integer cst)
+	 Edge( Vertex<E> src, Vertex<E> dst, Integer cst, String nm)
 	 {
 	    this (src, dst, cst.doubleValue());
 	 }
