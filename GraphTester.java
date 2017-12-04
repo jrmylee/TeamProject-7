@@ -71,7 +71,6 @@ public class GraphTester
 						firstInter = userScanner.nextLine();
 						System.out.println("Second Intersection? ");
 						secondInter = userScanner.nextLine();
-						graph.addEdge(firstInter, secondInter, 0);
 
 						prevGraph = new Fleur<>();
 
