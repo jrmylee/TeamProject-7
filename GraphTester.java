@@ -16,71 +16,40 @@ public class GraphTester
 	// -------  main --------------
 	public static void main(String[] args)
 	{
-
 		runProgram();
 	}
-
-	/**
-	 * Run Program
+	/**	Initiates a while loop that keeps a main menu and sub menus open.
+	 * User can respond through input numbers
+	 *	@author	Jeremy Lee
 	 */
 	public static void runProgram(){
 		boolean running = true;
 		int res = -1;
 		Edge last = null;
 		Fleur<String> graph = new Fleur<>();
-		Fleur<String> prevGraph = new Fleur<>();
+		StackInterface<String> removed = new LinkedStack<>();
 		while(running){
-			System.out.println("Euler Circuit Vacation Main Menu: \n");
-
-			System.out.println(
-					"1. Read the graph from a text file\u2028\n" +
-					"2. Display the graph\u2028\n" +
-					"3. Solve the graph\u2028\n" +
-					"4. Add an edge to the graph\u2028\n" +
-					"5. Remove an edge from the graph\u2028\n" +
-					"6. Undo the previous removal(s)\u2028\n" +
-					"7. Write the graph to a text file\u2028\n" +
-					"8. Quit" + "\nEnter a number:");
-
+			outputMainMenu();
 			res = getInteger(userScanner.nextLine());
-
 			if(res!=-1){
 				switch(res){
 					case 1:
-						graph = prevGraph=fillFleur();
+						graph =fillFleur();
 						break;
 					case 2:
-						if(graph.isEulerCircuit()){
-							displayGraph(graph);
-						}else{
-							System.out.println("Not an Euler Circuit! ");
-						}
+						displayGraph(graph);
 						break;
 					case 3:
 						graph.applyFleur("");
 						break;
 					case 4:
-						System.out.println("First Intersection? ");
-						String firstInter = userScanner.nextLine();
-						System.out.println("Second Intersection? ");
-						String secondInter = userScanner.nextLine();
-						graph.addEdge(firstInter, secondInter, 0); //add priority?
+						addEdge(graph);
 						break;
 					case 5:
-						System.out.println("First Intersection? ");
-						firstInter = userScanner.nextLine();
-						System.out.println("Second Intersection? ");
-						secondInter = userScanner.nextLine();
-
-						prevGraph = new Fleur<>();
-
-						if(graph.remove(firstInter, secondInter)){
-							System.out.println("Street between " + firstInter + " and " + secondInter + " was removed! ");
-						}else {
-							System.out.println("Remove unsuccessful! ");
-						}
+						removeEdge(graph, removed);
 						break;
 					case 6://undo
+						undoEdgeRemoval(graph, removed);
 						break;
 					case 7:
 						graph.writeToTextFile();
@@ -93,6 +62,28 @@ public class GraphTester
 		}
 	}
 
+	/**	Prints Main Menu Screen
+	 *	@author	Jeremy Lee
+	 */
+	public static void outputMainMenu(){
+		System.out.println("Euler Circuit Vacation Main Menu: \n");
+
+		System.out.println(
+				"1. Read the graph from a text file\u2028\n" +
+						"2. Display the graph\u2028\n" +
+						"3. Solve the graph\u2028\n" +
+						"4. Add an edge to the graph\u2028\n" +
+						"5. Remove an edge from the graph\u2028\n" +
+						"6. Undo the previous removal(s)\u2028\n" +
+						"7. Write the graph to a text file\u2028\n" +
+						"8. Quit" + "\nEnter a number:");
+	}
+
+	/**	Parses integer that is between 1-8.
+	 * @param str string to be parsed to integer
+	 * @return int between 1-8 if the string is those numbers, else returns -1
+	 *	@author	Jeremy Lee
+	 */
 	public static int getInteger(String str){
 		int res = -1;
 		try
@@ -109,28 +100,76 @@ public class GraphTester
 		return res;
 	}
 
+	/**	Offers options to traverse through Depth First, Breadth or Adjacency list.
+	 * @param graph graph to be traversed
+	 *	@author	Jeremy Lee
+	 */
 	public static void displayGraph(Fleur<String> graph){
-		System.out.println("1. Depth First\u2028\n" +
-				"2. Breadth First\u2028\n" +
-				"3. Adjacency List\u2028\n");
-		int res = getInteger(userScanner.nextLine());
-		switch(res){
-			case 1:
-				System.out.println("\nDepth First Traversal\n");
-				graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());System.out.println();
-				break;
-			case 2:
-				System.out.println("\nBreadth First Traversal\n");
-				graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor()); System.out.println();
-				break;
-			case 3:
-				System.out.println("\nAdjacency List");
-				graph.showAdjTable();System.out.println();
-				break;
+		if(graph.isEulerCircuit()){
+			System.out.println("1. Depth First\u2028\n" +
+					"2. Breadth First\u2028\n" +
+					"3. Adjacency List\u2028\n");
+			int res = getInteger(userScanner.nextLine());
+			switch(res){
+				case 1:
+					System.out.println("\nDepth First Traversal\n");
+					graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());System.out.println();
+					break;
+				case 2:
+					System.out.println("\nBreadth First Traversal\n");
+					graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor()); System.out.println();
+					break;
+				case 3:
+					System.out.println("\nAdjacency List");
+					graph.showAdjTable();System.out.println();
+					break;
+			}		}else{
+			System.out.println("Not an Euler Circuit! ");
 		}
-
 	}
 
+	/**	Prompts user to add an edge.
+	 * @param graph graph to add an edge
+	 *	@author	Jeremy Lee
+	 */
+	public static void addEdge(Fleur<String> graph){
+		System.out.println("First Intersection? ");
+		String firstInter = userScanner.nextLine();
+		System.out.println("Second Intersection? ");
+		String secondInter = userScanner.nextLine();
+		graph.addEdge(firstInter, secondInter, 0); //add priority?
+	}
+
+	/**	Prompts user to remove an edge.
+	 * @param graph graph to remove an edge
+	 *	@author	Jeremy Lee
+	 */
+	public static void removeEdge(Fleur<String> graph, StackInterface<String> removed){
+		System.out.println("First Intersection? ");
+		String firstInter = userScanner.nextLine();
+		System.out.println("Second Intersection? ");
+		String secondInter = userScanner.nextLine();
+
+		if(graph.remove(firstInter, secondInter)){
+			System.out.println("Street between " + firstInter + " and " + secondInter + " was removed! ");
+			removed.push(firstInter); removed.push(secondInter);
+		}else {
+			System.out.println("Remove unsuccessful! ");
+		}
+	}
+
+	/**	undo the previous edge removal.
+	 * @param graph graph to undo edge removal on
+	 * @param removed Stack of edges that were removed that are linked to the graph
+	 *	@author	Jeremy Lee
+	 */
+	public static void undoEdgeRemoval(Fleur<String> graph, StackInterface<String> removed){
+		if(!removed.isEmpty()){
+			String first = removed.pop(); String second = removed.pop();
+			System.out.println("Undo of street between " + second + " and " + first + " successful!");
+			graph.addEdge(first, second, 0);
+		}
+	}
 	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
 	* 	street itself and the two other streets it crosses. Vertices are named using the name of the street/the other street it crosses.
 	* 	(Ex. street 1 crosses street 2 and street 3 the two vertices are street 1/street 2 and street 1/street 3)
