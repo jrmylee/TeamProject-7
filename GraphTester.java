@@ -40,7 +40,7 @@ public class GraphTester
 						displayGraph(graph);
 						break;
 					case 3:
-						graph.applyFleur("");
+						solveGraph(graph);
 						break;
 					case 4:
 						addEdge(graph);
@@ -126,6 +126,39 @@ public class GraphTester
 			}		}else{
 			System.out.println("Not an Euler Circuit! ");
 		}
+		System.out.println();
+	}
+
+	/**	Solves and outputs solved graph using Fleury's Algorithm
+	 * @param graph graph to be solved
+	 *	@author	Jeremy Lee
+	 */
+	public static void solveGraph(Fleur<String> graph){
+		ArrayList<String> list = graph.applyFleur(graph.getStart());
+		String next;
+		for(int i = 0; i < list.size()-1; i++){
+			String first = list.get(i).split("/")[0];
+			String second = list.get(i).split("/")[1];
+
+			if(list.get(i+1).contains(first)){
+				if(first.compareTo(list.get(i+1).split("/")[0]) == 0){
+					next = list.get(i+1).split("/")[1];
+				}else{
+					next = list.get(i+1).split("/")[0];
+				}
+				System.out.println("From " + first + " to " + second + "(" + next+")");
+			}else if(list.get(i+1).contains(second)){
+				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
+					next = list.get(i+1).split("/")[1];
+				}else{
+					next = list.get(i+1).split("/")[0];
+				}
+				System.out.println("From " + second + " to " + first + "(" + next+")");
+
+			}
+
+		}
+		System.out.println();
 	}
 
 	/**	Prompts user to add an edge.
@@ -138,6 +171,8 @@ public class GraphTester
 		System.out.println("Second Intersection? ");
 		String secondInter = userScanner.nextLine();
 		graph.addEdge(firstInter, secondInter, 0); //add priority?
+		System.out.println();
+
 	}
 
 	/**	Prompts user to remove an edge.
@@ -156,6 +191,8 @@ public class GraphTester
 		}else {
 			System.out.println("Remove unsuccessful! ");
 		}
+
+		System.out.println();
 	}
 
 	/**	undo the previous edge removal.
@@ -168,6 +205,7 @@ public class GraphTester
 			String first = removed.pop(); String second = removed.pop();
 			System.out.println("Undo of street between " + second + " and " + first + " successful!");
 			graph.addEdge(first, second, 0);
+			System.out.println();
 		}
 	}
 	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
