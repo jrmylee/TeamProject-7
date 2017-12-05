@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 /**	
  * The Edge Class
  *	@author	Cynthia Lee-Klawender
+ *	UPDATED BY: Ali Masood
  */
 class Edge<E> implements Comparable< Edge<E> >
 {
@@ -43,7 +44,7 @@ class Edge<E> implements Comparable< Edge<E> >
 /**	
  * The Fleur class
  * Implements Fleury's algorithm for solving Eulerian circuits/paths.
- *	@author	Ali Masood
+ *	@author	Ali Masood, Andrew Goodman
  */
 class Fleur<E> extends Graph<E>
 {
@@ -73,7 +74,7 @@ class Fleur<E> extends Graph<E>
 	*		contains E start.
 	*	@return	ArrayList<E>	an array list of data elements stored
 	*		of type E, in order of visitation.
-	*	@author	Ali Masood
+	*	@author	Ali Masood, Andrew Goodman
 	*/
 	ArrayList<E> applyFleur(E start)	
 	{	
@@ -107,8 +108,8 @@ class Fleur<E> extends Graph<E>
 			while(edgeIter.hasNext() && !nextPathFound)
 			{	
 				// Get the next edge
-				Entry<E, Pair<Vertex<E>, Double>> e = edgeIter.next();
-				edge = e.getValue();
+				Entry<E, Pair<Vertex<E>, Double>> entry = edgeIter.next();
+				edge = entry.getValue();
 				
 				// If this is the last edge or a non-bridge				
 				if(!edgeIter.hasNext() 
@@ -117,7 +118,6 @@ class Fleur<E> extends Graph<E>
 					nextPathFound = true;
 				}
 			}
-			
 			//Temporarily store the next vertex
 			Vertex<E> temp = edge.first;
 			
@@ -129,6 +129,10 @@ class Fleur<E> extends Graph<E>
 
 			
 		}
+		
+		// Add the last vertex visited to the Euler circuit
+		eulerCircuit.add(currentVertex.getData());
+		
 		return eulerCircuit;
 	}
 
@@ -139,34 +143,26 @@ class Fleur<E> extends Graph<E>
 	 *	@param	dst	type E	destination vertex
 	 *	@return boolean	true when the vertex between the src and dst
 	 *			is a bridge
+	 *	@author Ali Masood, Andrew Goodman
 	 */
 	boolean isBridge(E src, E dst)
 	{
-		// Count the number of vertices reachable from src
-		// remove the src-dest edge . Count the number of
-		// vertices reachable from src. If it's less, then
-		// src-dst is a bridge.
-		
-		
-
+		// Count the reachable vertices from src
 		int reach_with_edge = 0;
 		CountVisitor<E> count_visitor = new CountVisitor<E>();
 		breadthFirstTraversal(src, count_visitor);
 		reach_with_edge = count_visitor.get_count();
 		
 		
-		// Remove edge, and check if is a Euler Path.
+		// Make a copy, and remove the potential bridge
 		Fleur<E> temp_fleur_graph = makeDeepCopy();
 		temp_fleur_graph.remove(src,dst);
 		
-		// Counting reachable vertices without src-dst edge
+		// Counting reachable vertices from src, without src-dst edge
 		int reach_without_edge = 0;
 		count_visitor.reset();
 		temp_fleur_graph.breadthFirstTraversal(src, count_visitor);
 		reach_without_edge = count_visitor.get_count();
-		
-		// Add edge back, and return
-		addEdge(src,dst,0);	// Cost set to 0 because cost doesn't matter in this 
 			
 		if(reach_with_edge > reach_without_edge)
 			return true;
@@ -174,6 +170,11 @@ class Fleur<E> extends Graph<E>
 			return false;	
 	}
 
+	/**
+	 * Make a deep copy of the passed Fleury graph.
+	 * return	nF	new Fleur graph
+	 * @author Andrew Goodman
+	 */
 	Fleur<E> makeDeepCopy()
 	{
 		Fleur nF = new Fleur();
@@ -188,10 +189,11 @@ class Fleur<E> extends Graph<E>
 	}
 
 
-	/**	Checks if there are 0, or 2, odd vertices.
-	*	@return	boolean	true when 0 or 2 vertices are odd.
-	*	@author	Ali Masood	
-	*/
+	/**	
+	 * Checks if there are 0, or 2, odd vertices.
+	 * @return	boolean	true when 0 or 2 vertices are odd.
+	 * @author	Ali Masood	
+	 */
 	boolean isEulerPath()
 	{
 		HashMap<E, Vertex<E>> vertsInGraph;
@@ -215,9 +217,9 @@ class Fleur<E> extends Graph<E>
 	}
 
 	/**	
-	 *  Checks if every vertex is even. 
-	 *	@return	boolean		true when all vertices are even
-	 *	@author	Ali Masood
+	 * Checks if every vertex is even. 
+	 * @return	boolean		true when all vertices are even
+	 * @author	Ali Masood
 	 */
 	boolean isEulerCircuit()
 	{
@@ -241,11 +243,16 @@ class Fleur<E> extends Graph<E>
 		return true;
 	}
 
+	/**
+	 * Check if the graph is disconnected.
+	 * @return boolean	true if the graph is disconnected.
+	 * @author Ali Masood
+	 */
 	boolean isDisconnected()
 	{
-		CountVisitor<E> countvisitor = new Countvisitor<>();
+		CountVisitor countvisitor = new CountVisitor();
 		breadthFirstTraversal(start, countvisitor);
-		if(countvisitor < vertexSet.size())
+		if(countvisitor.get_count() < vertexSet.size())
 		{
 			return true;
 		}
