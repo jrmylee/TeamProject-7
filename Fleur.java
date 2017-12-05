@@ -59,12 +59,13 @@ class Fleur<E> extends Graph<E>
 	
 	@Override
 	public void addEdge(E source, E dest, double cost)
-	   {
+	{
 		super.addEdge(source,dest,cost);
-	      if(start == null) {
-	    	  setStart(source);
-	      }
-	   }
+		if(start == null) 
+		{
+			setStart(source);
+		}
+	}
 	
 	/**	Applies Fleur's algorithm to build a Eulerian Circuit starting
 	*	and ending at start.
@@ -79,11 +80,10 @@ class Fleur<E> extends Graph<E>
 		// Initialize euler circuit ArrayList to be returned.
 		ArrayList<E> eulerCircuit = new ArrayList<E>();
 		
-		// Check if the graph is a Eulerian Circuit.
-		if(!isEulerCircuit())
-		{
+		if(vertexSet.isEmpty()
+		   || !isEulerCircuit()
+		   || isDisconnected())
 			return eulerCircuit;
-		}
 		
 		// Initialize currentVertex to that which contains E start
 		Vertex<E> currentVertex = vertexSet.get(start);
@@ -92,7 +92,6 @@ class Fleur<E> extends Graph<E>
 		// since edge are removed as the graph is traversed).
 		while(currentVertex.adjList.size() > 0)
 		{
-			System.out.println("Traversing vertices...");
 			// Add the current vertex's data to our circuit
 			eulerCircuit.add(currentVertex.getData());
 			
@@ -102,13 +101,11 @@ class Fleur<E> extends Graph<E>
 			Iterator<Entry<E, Pair<Vertex<E>, Double>>> edgeIter;
 			Pair<Vertex<E>, Double> edge = null;
 			
-			boolean nextNonBridgeFound = false;
+			boolean nextPathFound = false;
 			edgeIter = currentVertex.iterator();
 			
-			while(edgeIter.hasNext() && !nextNonBridgeFound)
-			{
-				System.out.print("Traversing edges of " + currentVertex.data + ": ");
-				
+			while(edgeIter.hasNext() && !nextPathFound)
+			{	
 				// Get the next edge
 				Entry<E, Pair<Vertex<E>, Double>> e = edgeIter.next();
 				edge = e.getValue();
@@ -117,12 +114,7 @@ class Fleur<E> extends Graph<E>
 				if(!edgeIter.hasNext() 
 				   || !isBridge(currentVertex.getData(), edge.first.getData()))
 				{
-					nextNonBridgeFound = true;
-					System.out.println(" Nonbridge");
-				}
-				else
-				{
-					System.out.println(" Bridge");
+					nextPathFound = true;
 				}
 			}
 			
@@ -141,7 +133,7 @@ class Fleur<E> extends Graph<E>
 	}
 
 	/**
-     * 	Check if the edge between the supplied source and destination
+     	 * 	Check if the edge between the supplied source and destination
 	 *	is a bridge.
 	 *	@param	src	type E	source vertex
 	 *	@param	dst	type E	destination vertex
@@ -247,6 +239,17 @@ class Fleur<E> extends Graph<E>
 			}
 		}
 		return true;
+	}
+
+	boolean isDisconnected()
+	{
+		CountVisitor<E> countvisitor = new Countvisitor<>();
+		breadthFirstTraversal(start, countvisitor);
+		if(countvisitor < vertexSet.size())
+		{
+			return true;
+		}
+		return false;
 	}
 }
 
