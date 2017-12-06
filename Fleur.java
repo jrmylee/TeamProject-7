@@ -11,6 +11,11 @@ class Fleur<E> extends Graph<E>
 {
 	E start = null;	// The starting point of the graph.
 	
+	public boolean isEmpty()
+	{
+		return vectorSet.isEmpty();
+	}
+	
 	public E getStart() {
 		return start;
 	}
