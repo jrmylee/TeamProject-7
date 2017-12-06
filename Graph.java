@@ -1,4 +1,6 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 interface Visitor<T>
@@ -261,7 +263,13 @@ public class Graph<E>
    //         WRITE THE GRAPH's vertices and its
    //         adjacency list TO A TEXT FILE (SUGGEST TO PASS AN
    //        ALREADY OPEN PrintWriter TO THIS) !
-    public void writeToTextFile(){
+    public void writeToTextFile(FileWriter fw, String output){
+        try {
+            fw.write(output);
+            fw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 

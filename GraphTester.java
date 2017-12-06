@@ -3,6 +3,8 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.text.*;
@@ -24,8 +26,7 @@ public class GraphTester
 	 */
 	public static void runProgram(){
 		boolean running = true;
-		int res = -1;
-		// Edge last = null; TODO: Removed by Ali because wasn't used and Edge class deleted
+		int res;
 		Fleur<String> graph = new Fleur<>();
 		StackInterface<String> removed = new LinkedStack<>();
 		while(running){
@@ -40,7 +41,11 @@ public class GraphTester
 						displayGraph(graph);
 						break;
 					case 3:
-						solveGraph(graph);
+						if(graph.getStart()!=null){
+							System.out.println(solveGraph(graph));
+						}else{
+							System.out.println("Nothing in graph!");
+						}
 						break;
 					case 4:
 						addEdge(graph);
@@ -52,12 +57,25 @@ public class GraphTester
 						undoEdgeRemoval(graph, removed);
 						break;
 					case 7:
-						graph.writeToTextFile();
+						if(graph.getStart()!=null){
+							System.out.println("Enter a filename: ");
+							String name = userScanner.nextLine();
+							try {
+								graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
+							} catch (IOException ex) {
+								ex.printStackTrace();
+							}
+						}else{
+							System.out.println("Nothing to write!");
+						}
+
 						break;
 					case 8:
 						running = false;
 						break;
 				}
+			}else{
+				System.out.println("\nEnter a Valid Menu Option!");
 			}
 		}
 	}
@@ -133,10 +151,12 @@ public class GraphTester
 	 * @param graph graph to be solved
 	 *	@author	Jeremy Lee
 	 */
-	public static void solveGraph(Fleur<String> graph){
-		ArrayList<String> list = graph.applyFleur(graph.getStart());
+	public static String solveGraph(Fleur<String> graph){
+		Fleur<String> temp = graph.makeDeepCopy();
+		ArrayList<String> list = graph.applyFleur(temp.getStart());
+		String output = "";
 		String next;
-		System.out.println("\nBeginning intersection: " + list.get(0));
+		output += ("\nBeginning intersection: " + list.get(0));
 		for(int i = 0; i < list.size()-1; i++){
 			String first = list.get(i).split("/")[0];
 			String second = list.get(i).split("/")[1];
@@ -147,18 +167,19 @@ public class GraphTester
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				System.out.println("From " + second + " to " + next + "(Common Street: " + first+")");
+				output += "From " + second + " to " + next + "(Common Street: " + first+")" + "\n";
 			}else if(list.get(i+1).contains(second)){
 				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
 					next = list.get(i+1).split("/")[1];
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				System.out.println("From " + first + " to " + next + "(Common Street: " + second+")");
+				output+= "From " + first + " to " + next + "(Common Street: " + second+")\n";
 
 			}
 		}
-		System.out.println("\nEnding intersection: " + list.get(list.size()-1) + "\n");
+		output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
+		return output;
 	}
 
 	/**	Prompts user to add an edge.
@@ -206,6 +227,8 @@ public class GraphTester
 			System.out.println("Undo of street between " + second + " and " + first + " successful!");
 			graph.addEdge(first, second, 0);
 			System.out.println();
+		}else{
+			System.out.println("Nothing to undo!");
 		}
 	}
 	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
@@ -254,11 +277,6 @@ public class GraphTester
 		
 	}
 
-	public static void output(Scanner scanner){
-		Scanner input = scanner;
-
-	}
-
 	// opens a text file for input, returns a Scanner:
 	public static Scanner openInputFile()
 	{
@@ -279,9 +297,6 @@ public class GraphTester
 		return scanner;
 	}
 
-	public static void printPath(){
-
-	}
 	   // -------  main --------------
 	  /* public static void main(String[] args)
 	   {
