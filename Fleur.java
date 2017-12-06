@@ -13,7 +13,7 @@ class Fleur<E> extends Graph<E>
 	
 	public boolean isEmpty()
 	{
-		return vectorSet.isEmpty();
+		return vertexSet.isEmpty();
 	}
 	
 	public E getStart() {
@@ -42,7 +42,7 @@ class Fleur<E> extends Graph<E>
 	*		of type E, in order of visitation.
 	*	@author	Ali Masood, Andrew Goodman
 	*/
-	ArrayList<E> applyFleur(E start)	
+	public ArrayList<E> applyFleur(E start)	
 	{	
 		// Initialize euler circuit ArrayList to be returned.
 		ArrayList<E> eulerCircuit = new ArrayList<E>();		// List of the order of vertex data visited.
@@ -107,7 +107,7 @@ class Fleur<E> extends Graph<E>
 	 *			is a bridge
 	 *	@author Ali Masood, Andrew Goodman
 	 */
-	boolean isBridge(E src, E dst)
+	public boolean isBridge(E src, E dst)
 	{
 		int reach_with_edge = 0;	// Count the number of edges reached from src vertex
 		int reach_without_edge = 0; // Count the number of edges reached from src vertex without the potential bridge
@@ -139,7 +139,7 @@ class Fleur<E> extends Graph<E>
 	 * return	nF	new Fleur graph
 	 * @author Andrew Goodman
 	 */
-	Fleur<E> makeDeepCopy()
+	public Fleur<E> makeDeepCopy()
 	{
 		Fleur nF = new Fleur(); // New Fleur graph that will be deep copied
 		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
@@ -158,7 +158,7 @@ class Fleur<E> extends Graph<E>
 	 * @return	boolean	true when 0 or 2 vertices are odd.
 	 * @author	Ali Masood	
 	 */
-	boolean isEulerPath()
+	public boolean isEulerPath()
 	{
 		Iterator<Entry<E, Vertex<E>>> vertIter;	// Iterator for 
 		Vertex<E> vert;	// holds vertex returned by iterator
@@ -185,7 +185,7 @@ class Fleur<E> extends Graph<E>
 	 * @return	boolean		true when all vertices are even
 	 * @author	Ali Masood
 	 */
-	boolean isEulerCircuit()
+	public boolean isEulerCircuit()
 	{
 		Iterator<Entry<E, Vertex<E>>> vertIter;	// Iterator for vertexSet
 		Vertex<E> vert; // holds vertex returned by iterator
@@ -210,7 +210,7 @@ class Fleur<E> extends Graph<E>
 	 * @return boolean	true if the graph is disconnected.
 	 * @author Ali Masood
 	 */
-	boolean isDisconnected()
+	public boolean isDisconnected()
 	{
 		// Count visitor used to count number of vertices reachable.
 		CountVisitor countvisitor = new CountVisitor();	
