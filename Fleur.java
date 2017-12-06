@@ -137,20 +137,38 @@ class Fleur<E> extends Graph<E>
 	/**
 	 * Make a deep copy of the passed Fleury graph.
 	 * return	nF	new Fleur graph
-	 * @author Andrew Goodman
+	 * @author Andrew Goodman, Ali Masood
 	 */
 	public Fleur<E> makeDeepCopy()
 	{
-		Fleur<E> nF = new Fleur(); // New Fleur graph that will be deep copied
-		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
-		while(iter.hasNext()) {
-			Entry<E, Vertex<E>> v = iter.next(); // Entry in vertexSet
-			Vertex<E> newV = new Vertex<E>(v.getValue().getData()); // New vertex to be added to the new graph
-			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
-			nF.vertexSet.put(v.getKey(), newV);
+		Fleur<E> newFleur = new Fleur<>(); // New Fleur graph that will be deep copied
+		Iterator<Entry<E, Vertex<E>>> vertSetIter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
+		Entry<E,Vertex<E>> vertexSetEntry;
+		Vertex<E> currVertex;
+		E currData;
+
+		Iterator<Entry<E, Pair<Vertex<E>, Double>>> adjListIterator;
+		Entry<E, Pair<Vertex<E>, Double>> adjListEntry;
+	    Pair<Vertex<E>, Double> adjListEntryPair;
+	    E adjData;
+		
+		while(vertSetIter.hasNext()) {
+			vertexSetEntry = vertSetIter.next();
+			currVertex = vertexSetEntry.getValue();
+			currData = currVertex.getData();
+			
+			adjListIterator = currVertex.adjList.entrySet().iterator();
+			while(adjListIterator.hasNext())
+			{
+				adjListEntry = adjListIterator.next();
+		        adjListEntryPair = adjListEntry.getValue();
+				adjData = adjListEntryPair.first.getData();
+				newFleur.addEdge(currData, adjData, 0.0);
+			}
 		}
-		nF.setStart(start);
-		return nF;
+		
+		newFleur.setStart(start);
+		return newFleur;
 	}
 
 
