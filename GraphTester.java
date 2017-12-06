@@ -153,7 +153,7 @@ public class GraphTester
 	 */
 	public static String solveGraph(Fleur<String> graph){
 		Fleur<String> temp = graph.makeDeepCopy();
-		ArrayList<String> list = graph.applyFleur(temp.getStart());
+		ArrayList<String> list = temp.applyFleur(temp.getStart());
 		String output = "";
 		String next;
 		output += ("\nBeginning intersection: " + list.get(0));
