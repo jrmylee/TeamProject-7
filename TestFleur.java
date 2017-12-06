@@ -1,13 +1,24 @@
 import java.util.*;
 
+/**
+ * Test the Fleur class
+ * @author @author Ali Masood
+ *
+ */
 public class TestFleur {
 	
-	public static void fillFleur(Fleur<String> fleur_graph, int numbernodes)
+	/**
+	 * Fill a Fleur<string> graph with a number of nodes.
+	 * @param fleur_graph	The graph to fill.
+	 * @param numbernodes	The number of nodes to fill with.
+	 * @author Ali Masood
+	 */
+	public static void fillFleur(Fleur<String> fleur_graph, int number_vertices)
 	{
 		fleur_graph.clear();
-		for(int i = 0; i < numbernodes; i++)
+		for(int i = 0; i < number_vertices; i++)
 		{
-			for(int j = i + 1; j < numbernodes; j++)
+			for(int j = i + 1; j < number_vertices; j++)
 			{
 				fleur_graph.addEdge(Character.toString((char)('A' + i)),
 						    Character.toString((char)('A' + j)),
@@ -16,6 +27,11 @@ public class TestFleur {
 		}
 	}
 	
+	/**
+	 * Fill a Fleur<String> graph with a disconnected set of vertices.
+	 * @param fleur_graph	the graph to fill
+	 * @author Ali Masood
+	 */
 	public static void fillFleurDisconnected(Fleur<String> fleur_graph)
 	{
 		fleur_graph.clear();
@@ -29,6 +45,11 @@ public class TestFleur {
 		fleur_graph.addEdge("E", "F", 1.0);
 	}
 	
+	/**
+	 * Test removal from the graph.
+	 * @param fleur_graph the graph to remove from
+	 * @author Ali Masood
+	 */
 	public static void testRemove(Fleur<String> fleur_graph)
 	{
 		System.out.println("Removing A-C, B-C connections:");
@@ -39,9 +60,16 @@ public class TestFleur {
 		fleur_graph.showAdjTable();
 	}
 	
+	/**
+	 * Test applyFleur()
+	 * @param fleur_graph
+	 * @author Ali Masood
+	 */
 	public static void testApplyFleur(Fleur<String> fleur_graph)
 	{
 		ArrayList<String> solution = fleur_graph.applyFleur("A");
+		// Solution contains order of vertices data visited
+		
 		System.out.println("Fleur Solution:");
 		if(solution.isEmpty())
 			System.out.println("	ArrayList for solution is empty.");
@@ -54,6 +82,11 @@ public class TestFleur {
 		}
 	}
 	
+	/**
+	 * Run tests on a specific graph.
+	 * @param fleur_graph	
+	 * @author Ali Masood
+	 */
 	public static void runTests(Fleur<String> fleur_graph)
 	{
 		System.out.println("----------------------------------------------");
@@ -66,8 +99,12 @@ public class TestFleur {
 		System.out.println("");
 	}
 	
+	/**
+	 * Run tests for possible graphs.
+	 * @author Ali Masood
+	 */
 	public static void main(String[] args) {
-		Fleur<String> fleur_graph= new Fleur<>();
+		Fleur<String> fleur_graph= new Fleur<>();	// Graph to manipulate
 		
 		// Three Vertices, Complete Graph
 		System.out.println("Graph with three vertices:");

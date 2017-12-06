@@ -25,7 +25,7 @@ public class GraphTester
 	public static void runProgram(){
 		boolean running = true;
 		int res = -1;
-		Edge last = null;
+		// Edge last = null; TODO: Removed by Ali because wasn't used and Edge class deleted
 		Fleur<String> graph = new Fleur<>();
 		StackInterface<String> removed = new LinkedStack<>();
 		while(running){

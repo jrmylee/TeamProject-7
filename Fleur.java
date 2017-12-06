@@ -1,45 +1,6 @@
 import java.util.*;
 import java.util.Map.Entry;
 
-/**	
- * The Edge Class
- *	@author	Cynthia Lee-Klawender
- *	UPDATED BY: Ali Masood
- */
-class Edge<E> implements Comparable< Edge<E> >
-{
-	 Vertex<E> source, dest;
-	 double cost;
-	 String name;
-
-	 Edge( Vertex<E> src, Vertex<E> dst, Double cst, String nm)
-	 {
-	    source = src;
-	    dest = dst;
-	    cost = cst;
-	    name = nm;
-	 }
-
-	 Edge( Vertex<E> src, Vertex<E> dst, Integer cst, String nm)
-	 {
-	    this (src, dst, cst.doubleValue(),nm);
-	 }
-
-	 Edge()
-	 {
-	    this(null, null, 1.,"");
-	 }
-
-	 public String toString(){ return "Edge: "+source.getData() + " to " + dest.getData()
-			 + ", distance: " + cost;
-	 }
-
-	 public int compareTo( Edge<E> rhs )
-	 {
-	    return (cost < rhs.cost? -1 : cost > rhs.cost? 1 : 0);
-	 }
-}
-
 
 /**	
  * The Fleur class
@@ -48,7 +9,7 @@ class Edge<E> implements Comparable< Edge<E> >
  */
 class Fleur<E> extends Graph<E>
 {
-	E start = null;
+	E start = null;	// The starting point of the graph.
 	
 	public E getStart() {
 		return start;
@@ -79,7 +40,7 @@ class Fleur<E> extends Graph<E>
 	ArrayList<E> applyFleur(E start)	
 	{	
 		// Initialize euler circuit ArrayList to be returned.
-		ArrayList<E> eulerCircuit = new ArrayList<E>();
+		ArrayList<E> eulerCircuit = new ArrayList<E>();		// List of the order of vertex data visited.
 		
 		if(vertexSet.isEmpty()
 		   || !isEulerCircuit()
@@ -118,13 +79,10 @@ class Fleur<E> extends Graph<E>
 					nextPathFound = true;
 				}
 			}
-			//Temporarily store the next vertex
+			
+			// Temporarily store the next vertex, Remove the edge from the Graph, set the next vertex
 			Vertex<E> temp = edge.first;
-			
-			// Remove the edge from the Graph
 			remove(currentVertex.getData(), edge.first.getData());
-			
-			// Use the found edge to set the next vertex
 			currentVertex = temp;
 
 			
@@ -132,7 +90,6 @@ class Fleur<E> extends Graph<E>
 		
 		// Add the last vertex visited to the Euler circuit
 		eulerCircuit.add(currentVertex.getData());
-		
 		return eulerCircuit;
 	}
 
@@ -147,19 +104,21 @@ class Fleur<E> extends Graph<E>
 	 */
 	boolean isBridge(E src, E dst)
 	{
-		// Count the reachable vertices from src
-		int reach_with_edge = 0;
+		int reach_with_edge = 0;	// Count the number of edges reached from src vertex
+		int reach_without_edge = 0; // Count the number of edges reached from src vertex without the potential bridge
+		Fleur<E> temp_fleur_graph;	// Temporary graph used to remove edges,
+		
+		// Count the reachable vertices from srcFleur<E> 
 		CountVisitor<E> count_visitor = new CountVisitor<E>();
 		breadthFirstTraversal(src, count_visitor);
 		reach_with_edge = count_visitor.get_count();
 		
 		
 		// Make a copy, and remove the potential bridge
-		Fleur<E> temp_fleur_graph = makeDeepCopy();
+		temp_fleur_graph = makeDeepCopy();
 		temp_fleur_graph.remove(src,dst);
 		
 		// Counting reachable vertices from src, without src-dst edge
-		int reach_without_edge = 0;
 		count_visitor.reset();
 		temp_fleur_graph.breadthFirstTraversal(src, count_visitor);
 		reach_without_edge = count_visitor.get_count();
@@ -177,11 +136,11 @@ class Fleur<E> extends Graph<E>
 	 */
 	Fleur<E> makeDeepCopy()
 	{
-		Fleur nF = new Fleur();
-		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator();
+		Fleur nF = new Fleur(); // New Fleur graph that will be deep copied
+		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
 		while(iter.hasNext()) {
-			Entry<E, Vertex<E>> v = iter.next();
-			Vertex<E> newV = new Vertex<E>(v.getValue().getData());
+			Entry<E, Vertex<E>> v = iter.next(); // Entry in vertexSet
+			Vertex<E> newV = new Vertex<E>(v.getValue().getData()); // New vertex to be added to the new graph
 			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
 			nF.vertexSet.put(v.getKey(), newV);
 		}
@@ -196,20 +155,20 @@ class Fleur<E> extends Graph<E>
 	 */
 	boolean isEulerPath()
 	{
-		HashMap<E, Vertex<E>> vertsInGraph;
-		Iterator<Entry<E, Vertex<E>>> vertIter;
-		Vertex<E> vert;
-		int oddVertices = 0;
-		vertsInGraph = vertexSet;
+		Iterator<Entry<E, Vertex<E>>> vertIter;	// Iterator for 
+		Vertex<E> vert;	// holds vertex returned by iterator
+		int oddVertices = 0; // The number of odd vertices
 
 		if (vertexSet.isEmpty())
 			return false;
-		for( vertIter = vertsInGraph.entrySet().iterator(); vertIter.hasNext(); )
+		
+		for( vertIter = vertexSet.entrySet().iterator(); vertIter.hasNext(); )
 		{
 			vert = vertIter.next().getValue();
 			if (vert.adjList.size() % 2 == 0)	
 				++oddVertices;
 		}
+		
 		if(oddVertices == 2 || oddVertices == 0)
 			return true;
 		else
@@ -223,16 +182,14 @@ class Fleur<E> extends Graph<E>
 	 */
 	boolean isEulerCircuit()
 	{
-		HashMap<E, Vertex<E>> vertsInGraph;
-		Iterator<Entry<E, Vertex<E>>> vertIter;
-		Vertex<E> vert;
-		vertsInGraph = vertexSet;
+		Iterator<Entry<E, Vertex<E>>> vertIter;	// Iterator for vertexSet
+		Vertex<E> vert; // holds vertex returned by iterator
 
 		if (vertexSet.isEmpty())
 		{
 			return false;
 		}
-		for( vertIter = vertsInGraph.entrySet().iterator(); vertIter.hasNext(); )
+		for( vertIter = vertexSet.entrySet().iterator(); vertIter.hasNext(); )
 		{
 			vert = vertIter.next().getValue();
 			if (vert.adjList.size() % 2 == 1)
@@ -250,7 +207,9 @@ class Fleur<E> extends Graph<E>
 	 */
 	boolean isDisconnected()
 	{
-		CountVisitor countvisitor = new CountVisitor();
+		// Count visitor used to count number of vertices reachable.
+		CountVisitor countvisitor = new CountVisitor();	
+		
 		breadthFirstTraversal(start, countvisitor);
 		if(countvisitor.get_count() < vertexSet.size())
 		{
