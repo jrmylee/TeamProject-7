@@ -136,6 +136,7 @@ public class GraphTester
 	public static void solveGraph(Fleur<String> graph){
 		ArrayList<String> list = graph.applyFleur(graph.getStart());
 		String next;
+		System.out.println("\nBeginning intersection: " + list.get(0));
 		for(int i = 0; i < list.size()-1; i++){
 			String first = list.get(i).split("/")[0];
 			String second = list.get(i).split("/")[1];
@@ -146,19 +147,18 @@ public class GraphTester
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				System.out.println("From " + first + " to " + second + "(" + next+")");
+				System.out.println("From " + second + " to " + next + "(Common Street: " + first+")");
 			}else if(list.get(i+1).contains(second)){
 				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
 					next = list.get(i+1).split("/")[1];
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				System.out.println("From " + second + " to " + first + "(" + next+")");
+				System.out.println("From " + first + " to " + next + "(Common Street: " + second+")");
 
 			}
-
 		}
-		System.out.println();
+		System.out.println("\nEnding intersection: " + list.get(list.size()-1) + "\n");
 	}
 
 	/**	Prompts user to add an edge.
