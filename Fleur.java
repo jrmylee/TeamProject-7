@@ -141,7 +141,7 @@ class Fleur<E> extends Graph<E>
 	 */
 	public Fleur<E> makeDeepCopy()
 	{
-		Fleur nF = new Fleur(); // New Fleur graph that will be deep copied
+		Fleur<E> nF = new Fleur(); // New Fleur graph that will be deep copied
 		Iterator<Entry<E, Vertex<E>>> iter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
 		while(iter.hasNext()) {
 			Entry<E, Vertex<E>> v = iter.next(); // Entry in vertexSet
@@ -149,6 +149,7 @@ class Fleur<E> extends Graph<E>
 			newV.adjList = new HashMap<E, Pair<Vertex<E>, Double> >(v.getValue().adjList);
 			nF.vertexSet.put(v.getKey(), newV);
 		}
+		nF.setStart(start);
 		return nF;
 	}
 
