@@ -253,11 +253,41 @@ public class GraphTester
 		Fleur<String> newFleur = new Fleur<String>();
 		ArrayList<String> previousStreets = new ArrayList<String>();
 		while(fileScan != null && fileScan.hasNext()) {
-			String line = fileScan.nextLine();
-			String streetName = line.split("from")[0].trim();
-			String firstInterSec = line.split("from")[1].split("to")[0].trim();
-			String secondInterSec = line.split("from")[1].split("to")[1].trim();
-			String fullInter1 = streetName+"/"+firstInterSec;
+			String line = fileScan.nextLine().toLowerCase();
+			String[] streetName = {line.split("from")[0].trim()};
+			//String firstInterSec = line.split("from")[1].split("to")[0].trim();
+			String[] listOfFirstIntersects = line.split("from")[1].split("to")[0].trim().split("and");
+			listOfFirstIntersects = addToEnd(streetName,listOfFirstIntersects);
+			for(int i = 0;i <listOfFirstIntersects.length; i++) {
+				listOfFirstIntersects[i] = listOfFirstIntersects[i].trim();
+			}
+			//String secondInterSec = line.split("from")[1].split("to")[1].trim();
+			String[] listOfSecondIntersects = line.split("from")[1].split("to")[1].trim().split("and"); 
+			listOfSecondIntersects = addToEnd(streetName,listOfSecondIntersects);
+			for(int i = 0;i <listOfSecondIntersects.length; i++) {
+				listOfSecondIntersects[i] = listOfSecondIntersects[i].trim();
+			}
+			String[] permutesOfFirst = getPermuationsOfIntersections(listOfFirstIntersects);
+			String[] permutesOfSecond = getPermuationsOfIntersections(listOfSecondIntersects);
+			String fullInter1 = permutesOfFirst[0];
+			String fullInter2 = permutesOfSecond[0];
+			for(int i = 0; i < permutesOfFirst.length; i++) {
+				if(previousStreets.contains(permutesOfFirst[i])) {
+					fullInter1 = permutesOfFirst[i];
+				}else if(i == permutesOfFirst.length-1) {
+					System.out.println("adding: " + fullInter1);
+					previousStreets.add(fullInter1);
+				}
+			}
+			for(int i = 0; i < permutesOfSecond.length; i++) {
+				if(previousStreets.contains(permutesOfSecond[i])) {
+					fullInter2 = permutesOfSecond[i];
+				}else if(i == permutesOfSecond.length-1) {
+					System.out.println("adding: " + fullInter2);
+					previousStreets.add(fullInter2);
+				}
+			}
+			/*String fullInter1 = streetName+"/"+firstInterSec;
 			String fullInter2 = streetName+"/"+secondInterSec;
 			if(previousStreets.contains(firstInterSec+"/"+streetName)){
 				fullInter1 = firstInterSec+"/"+streetName;
@@ -271,7 +301,7 @@ public class GraphTester
 			}else {
 				System.out.println("adding: " + streetName+"/"+secondInterSec);
 				previousStreets.add(streetName+"/"+secondInterSec);
-			}
+			}*/
 				newFleur.addEdge(fullInter1,fullInter2, 0);
 
 			
@@ -279,6 +309,59 @@ public class GraphTester
 		return newFleur;
 		
 	}
+	
+	static String[] getPermuationsOfIntersections(String[] input) {
+	      String[] words = permute(input, 0);
+	      String[] intersects = new String[facto(input.length)];
+	      for(int i = 0; i < intersects.length; i++){
+	        String concated = "";
+	        for(int x = i * (input.length); x < (i+1) * input.length; x++){
+	        	concated += words[x] + "/";
+	        }
+	        concated = concated.substring(0,concated.length()-1);
+	        intersects[i] = concated;
+	      }
+	      return intersects;
+	}
+	
+	static String[] permute(String[] arr, int k){
+	      String[] returnVal = new String[0];
+	        for(int i = k; i < arr.length; i++){
+	            swap(arr, i, k);
+	            returnVal = addToEnd(returnVal,permute(arr, k+1));
+	            swap(arr, k, i);
+	        }
+	        if (k == arr.length -1){
+	          	returnVal = arr;
+	            //System.out.println(java.util.Arrays.toString(arr));
+	        }
+	      return returnVal;
+	    }
+
+	static String[] addToEnd(String[] adee, String[] adder){
+	  	String[] newStringArr = new String[adee.length+adder.length];
+	    for(int i = 0; i < adee.length; i++){
+	    	newStringArr[i] = adee[i];
+	    }
+	    for(int i = adee.length; i < newStringArr.length; i++){
+	    	newStringArr[i] = adder[i-adee.length];
+	    }
+	    return newStringArr;
+	  }
+
+	static int facto(int i){
+	    for(int x = i-1; x > 0; x--){
+	    	i *= x;;
+	    }
+	    return i;
+	  }
+	
+	static void swap(String[] words, int first, int second){
+	    String temp = words[first];
+	    words[first] = words[second];
+	      words[second] = temp;
+	  }
+
 
 	// opens a text file for input, returns a Scanner:
 	public static Scanner openInputFile()
