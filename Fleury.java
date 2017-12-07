@@ -3,11 +3,11 @@ import java.util.Map.Entry;
 
 
 /**	
- * The Fleur class
+ * The Fleury class
  * Implements Fleury's algorithm for solving Eulerian circuits/paths.
  *	@author	Ali Masood, Andrew Goodman
  */
-class Fleur<E> extends Graph<E>
+class Fleury<E> extends Graph<E>
 {
 	E start = null;	// The starting point of the graph.
 	
@@ -34,7 +34,7 @@ class Fleur<E> extends Graph<E>
 		}
 	}
 	
-	/**	Applies Fleur's algorithm to build a Eulerian Circuit starting
+	/**	Applies Fleury's algorithm to build a Eulerian Circuit starting
 	*	and ending at start.
 	*	@param start data of type E, sets starting vertex to whichever
 	*		contains E start.
@@ -42,7 +42,7 @@ class Fleur<E> extends Graph<E>
 	*		of type E, in order of visitation.
 	*	@author	Ali Masood, Andrew Goodman
 	*/
-	public ArrayList<E> applyFleur(E start)	
+	public ArrayList<E> applyFleury(E start)	
 	{	
 		// Initialize euler circuit ArrayList to be returned.
 		ArrayList<E> eulerCircuit = new ArrayList<E>();		// List of the order of vertex data visited.
@@ -99,7 +99,7 @@ class Fleur<E> extends Graph<E>
 	}
 
 	/**
-     	 * 	Check if the edge between the supplied source and destination
+     * 	Check if the edge between the supplied source and destination
 	 *	is a bridge.
 	 *	@param	src	type E	source vertex
 	 *	@param	dst	type E	destination vertex
@@ -111,7 +111,7 @@ class Fleur<E> extends Graph<E>
 	{
 		int reach_with_edge = 0;	// Count the number of edges reached from src vertex
 		int reach_without_edge = 0; // Count the number of edges reached from src vertex without the potential bridge
-		Fleur<E> temp_fleur_graph;	// Temporary graph used to remove edges,
+		Fleury<E> temp_fleur_graph;	// Temporary graph used to remove edges,
 		
 		// Count the reachable vertices from srcFleur<E> 
 		CountVisitor<E> count_visitor = new CountVisitor<E>();
@@ -136,12 +136,12 @@ class Fleur<E> extends Graph<E>
 
 	/**
 	 * Make a deep copy of the passed Fleury graph.
-	 * return	nF	new Fleur graph
+	 * return	nF	new Fleury graph
 	 * @author Andrew Goodman, Ali Masood
 	 */
-	public Fleur<E> makeDeepCopy()
+	public Fleury<E> makeDeepCopy()
 	{
-		Fleur<E> newFleur = new Fleur<>(); // New Fleur graph that will be deep copied
+		Fleury<E> newFleury = new Fleury<>(); // New Fleury graph that will be deep copied
 		Iterator<Entry<E, Vertex<E>>> vertSetIter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
 		Entry<E,Vertex<E>> vertexSetEntry;
 		Vertex<E> currVertex;
@@ -163,12 +163,12 @@ class Fleur<E> extends Graph<E>
 				adjListEntry = adjListIterator.next();
 		        adjListEntryPair = adjListEntry.getValue();
 				adjData = adjListEntryPair.first.getData();
-				newFleur.addEdge(currData, adjData, 0.0);
+				newFleury.addEdge(currData, adjData, 0.0);
 			}
 		}
 		
-		newFleur.setStart(start);
-		return newFleur;
+		newFleury.setStart(start);
+		return newFleury;
 	}
 
 
