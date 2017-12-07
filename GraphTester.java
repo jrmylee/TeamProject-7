@@ -38,11 +38,17 @@ public class GraphTester
 						graph =fillFleur();
 						break;
 					case 2:
-						displayGraph(graph);
+						if(!graph.isEmpty()){
+							displayGraph(graph);
+						}else{
+							System.out.println("Graph is empty! ");
+						}
 						break;
 					case 3:
-						if(graph.getStart()!=null){
+						if(!graph.isEmpty() && graph.isEulerCircuit()){
 							System.out.println(solveGraph(graph));
+						}else if(!graph.isEulerCircuit()){
+							System.out.println("Not an Euler Circuit!");
 						}else{
 							System.out.println("Nothing in graph!");
 						}
@@ -57,7 +63,7 @@ public class GraphTester
 						undoEdgeRemoval(graph, removed);
 						break;
 					case 7:
-						if(graph.getStart()!=null){
+						if(!graph.isEmpty()){
 							System.out.println("Enter a filename: ");
 							String name = userScanner.nextLine();
 							try {
@@ -123,26 +129,23 @@ public class GraphTester
 	 *	@author	Jeremy Lee
 	 */
 	public static void displayGraph(Fleur<String> graph){
-		if(graph.isEulerCircuit()){
-			System.out.println("1. Depth First\u2028\n" +
-					"2. Breadth First\u2028\n" +
-					"3. Adjacency List\u2028\n");
-			int res = getInteger(userScanner.nextLine());
-			switch(res){
-				case 1:
-					System.out.println("\nDepth First Traversal\n");
-					graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());System.out.println();
-					break;
-				case 2:
-					System.out.println("\nBreadth First Traversal\n");
-					graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor()); System.out.println();
-					break;
-				case 3:
-					System.out.println("\nAdjacency List");
-					graph.showAdjTable();System.out.println();
-					break;
-			}		}else{
-			System.out.println("Not an Euler Circuit! ");
+		System.out.println("1. Depth First\u2028\n" +
+				"2. Breadth First\u2028\n" +
+				"3. Adjacency List\u2028\n");
+		int res = getInteger(userScanner.nextLine());
+		switch(res){
+			case 1:
+				System.out.println("\nDepth First Traversal\n");
+				graph.depthFirstTraversal(graph.getStart(), new PrintVisitor());System.out.println();
+				break;
+			case 2:
+				System.out.println("\nBreadth First Traversal\n");
+				graph.breadthFirstTraversal(graph.getStart(), new PrintVisitor()); System.out.println();
+				break;
+			case 3:
+				System.out.println("\nAdjacency List");
+				graph.showAdjTable();System.out.println();
+				break;
 		}
 		System.out.println();
 	}
