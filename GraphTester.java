@@ -83,6 +83,7 @@ public class GraphTester
 			}else{
 				System.out.println("\nEnter a Valid Menu Option!");
 			}
+			pauseMenu();
 		}
 	}
 
@@ -101,6 +102,16 @@ public class GraphTester
 						"6. Undo the previous removal(s)\n" +
 						"7. Write the graph to a text file\n" +
 						"8. Quit" + "\nEnter a number:");
+	}
+	
+	/**
+	 * Pauses the program until the user hits enter.
+	 * @author Ali Masood
+	 */
+	public static void pauseMenu() {
+		Scanner user_input = new Scanner(System.in);
+		System.out.println("Hit Enter to continue.\n");
+		user_input.nextLine();
 	}
 
 	/**	Parses integer that is between 1-8.
