@@ -166,22 +166,6 @@ public class GraphTester
 	 *	@author	Jeremy Lee
 	 */
 	public static String solveGraph(Fleury<String> graph){
-<<<<<<< HEAD
-		Fleury<String> temp = graph.makeDeepCopy();
-		ArrayList<String> list = temp.applyFleury(temp.getStart());
-		String output = "";
-		String next;
-		output += ("\nBeginning intersection: " + list.get(0) + "\n");
-		for(int i = 0; i < list.size()-1; i++){
-			String first = list.get(i).split("/")[0];
-			String second = list.get(i).split("/")[1];
-
-			if(list.get(i+1).contains(first)){
-				if(first.compareTo(list.get(i+1).split("/")[0]) == 0){
-					next = list.get(i+1).split("/")[1];
-				}else{
-					next = list.get(i+1).split("/")[0];
-=======
 		String output = ""; 
 		if(graph.isEulerCircuit()) {
 			Fleury<String> temp = graph.makeDeepCopy();
@@ -203,7 +187,6 @@ public class GraphTester
 					if(allAtInter1[x].compareTo(next) != 0) {
 							output += allAtInter1[x] + " and ";
 					}
->>>>>>> a0db9caa3b9fcaf0c4df2ec960982c91eeed7bf6
 				}
 				output = output.substring(0, output.length() - 5);
 				output += "\" to \"";
@@ -232,15 +215,11 @@ public class GraphTester
 					}
 					output+= second + " from " + first + " to " + next + "\n";
 
-<<<<<<< HEAD
-			}
-=======
 				}*/
 			}
 			output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
 		}else {
 			output = "Not an euler circuit";
->>>>>>> a0db9caa3b9fcaf0c4df2ec960982c91eeed7bf6
 		}
 		
 		return output;
