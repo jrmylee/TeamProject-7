@@ -47,6 +47,17 @@ public class GraphTester
 					case 3:
 						if(!graph.isEmpty() && graph.isEulerCircuit()){
 							System.out.println(solveGraph(graph));
+
+							System.out.println("\nWrite solution to file?(t/f)");
+							String res1 = userScanner.nextLine();
+							if(res1.equals("t")){
+								System.out.println("Enter a filename: ");
+								String name = userScanner.nextLine();
+								try {
+									graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
+								} catch (IOException ex) {
+									ex.printStackTrace();
+								}							}
 						}else if(!graph.isEulerCircuit()){
 							System.out.println("Not an Euler Circuit!");
 						}else{
@@ -63,20 +74,13 @@ public class GraphTester
 						undoEdgeRemoval(graph, removed);
 						break;
 					case 7:
-						if(!graph.isEmpty() && graph.isEulerCircuit()){
-							System.out.println("Enter a filename: ");
-							String name = userScanner.nextLine();
-							try {
-								graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
-							} catch (IOException ex) {
-								ex.printStackTrace();
-							}
-						}else if(graph.isEmpty()){
-							System.out.println("Nothing to write!");
-						}else{
-							System.out.println("Not an Euler Circuit!");
+						System.out.println("Enter a filename: ");
+						String name = userScanner.nextLine();
+						try {
+							graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
+						} catch (IOException ex) {
+							ex.printStackTrace();
 						}
-
 						break;
 					case 8:
 						running = false;
@@ -88,6 +92,24 @@ public class GraphTester
 			pauseMenu();
 		}
 	}
+
+	public static void writeToText(Fleury<String> graph){
+		if(!graph.isEmpty() && graph.isEulerCircuit()){
+			System.out.println("Enter a filename: ");
+			String name = userScanner.nextLine();
+			try {
+				graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}else if(graph.isEmpty()){
+			System.out.println("Nothing to write!");
+		}else{
+			System.out.println("Not an Euler Circuit!");
+		}
+
+	}
+
 
 	/**	Prints Main Menu Screen
 	 *	@author	Jeremy Lee
