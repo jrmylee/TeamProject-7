@@ -93,13 +93,13 @@ public class GraphTester
 		System.out.println("Euler Circuit Vacation Main Menu: \n");
 
 		System.out.println(
-				"1. Read the graph from a text file\u2028\n" +
-						"2. Display the graph\u2028\n" +
-						"3. Solve the graph\u2028\n" +
-						"4. Add an edge to the graph\u2028\n" +
-						"5. Remove an edge from the graph\u2028\n" +
-						"6. Undo the previous removal(s)\u2028\n" +
-						"7. Write the graph to a text file\u2028\n" +
+				"1. Read the graph from a text file\n" +
+						"2. Display the graph\n" +
+						"3. Solve the graph\n" +
+						"4. Add an edge to the graph\n" +
+						"5. Remove an edge from the graph\n" +
+						"6. Undo the previous removal(s)\n" +
+						"7. Write the graph to a text file\n" +
 						"8. Quit" + "\nEnter a number:");
 	}
 
