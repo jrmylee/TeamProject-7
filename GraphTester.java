@@ -181,14 +181,14 @@ public class GraphTester
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				output += "From " + second + " to " + next + "(Common Street: " + first+")" + "\n";
+				output += first +" from " + second + " to " + next + "\n";
 			}else if(list.get(i+1).contains(second)){
 				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
 					next = list.get(i+1).split("/")[1];
 				}else{
 					next = list.get(i+1).split("/")[0];
 				}
-				output+= "From " + first + " to " + next + "(Common Street: " + second+")\n";
+				output+= second + " from " + first + " to " + next + "\n";
 
 			}
 		}
