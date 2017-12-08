@@ -1,0 +1,20 @@
+street 1 from street 4 and street 9 to street 10 and street 2
+street 2 from street 10 and street 1 to street 3 and street 9
+street 3 from street 2 and street 9 to street 4 and street 10
+street 4 from street 3 and street 10 to street 1 and street 9
+street 5 from street 8 and street 9 to street 6 and street 10
+street 6 from street 7 and street 9 to street 10 and street 5
+street 6 from street 5 and street 10 to street 11
+street 6 from street 7 and street 9 to street 12
+street 7 from street 6 and street 9 to street 8 and street 10
+street 8 from street 7 and street 10 to street 5 and street 9
+street 8 from street 5 and street 9 to street 11
+street 8 from street 10 and street 7 to street 12
+street 9 from street 4 and street 1 to street 2 and street 3
+street 9 from street 1 and street 4 to street 5 and street 8
+street 9 from street 2 and street 3 to street 7 and street 6
+street 10 from street 1 and street 2 to street 3 and street 4
+street 10 from street 5 and street 6 to street 1 and street 2
+street 10 from street 4 and street 3 to street 8 and street 7
+street 11 from street 8 to street 6
+street 12 from street 8 to street 6
