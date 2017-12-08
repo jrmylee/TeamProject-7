@@ -170,7 +170,7 @@ public class GraphTester
 		ArrayList<String> list = temp.applyFleury(temp.getStart());
 		String output = "";
 		String next;
-		output += ("\nBeginning intersection: " + list.get(0));
+		output += ("\nBeginning intersection: " + list.get(0) + "\n");
 		for(int i = 0; i < list.size()-1; i++){
 			String first = list.get(i).split("/")[0];
 			String second = list.get(i).split("/")[1];
