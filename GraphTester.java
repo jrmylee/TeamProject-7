@@ -27,7 +27,7 @@ public class GraphTester
 	public static void runProgram(){
 		boolean running = true;
 		int res;
-		Fleur<String> graph = new Fleur<>();
+		Fleury<String> graph = new Fleury<>();
 		StackInterface<String> removed = new LinkedStack<>();
 		while(running){
 			outputMainMenu();
@@ -35,7 +35,7 @@ public class GraphTester
 			if(res!=-1){
 				switch(res){
 					case 1:
-						graph =fillFleur();
+						graph =fillFleury();
 						break;
 					case 2:
 						if(!graph.isEmpty()){
@@ -128,7 +128,7 @@ public class GraphTester
 	 * @param graph graph to be traversed
 	 *	@author	Jeremy Lee
 	 */
-	public static void displayGraph(Fleur<String> graph){
+	public static void displayGraph(Fleury<String> graph){
 		System.out.println("1. Depth First\u2028\n" +
 				"2. Breadth First\u2028\n" +
 				"3. Adjacency List\u2028\n");
@@ -154,9 +154,9 @@ public class GraphTester
 	 * @param graph graph to be solved
 	 *	@author	Jeremy Lee
 	 */
-	public static String solveGraph(Fleur<String> graph){
-		Fleur<String> temp = graph.makeDeepCopy();
-		ArrayList<String> list = temp.applyFleur(temp.getStart());
+	public static String solveGraph(Fleury<String> graph){
+		Fleury<String> temp = graph.makeDeepCopy();
+		ArrayList<String> list = temp.applyFleury(temp.getStart());
 		String output = "";
 		String next;
 		output += ("\nBeginning intersection: " + list.get(0));
@@ -189,7 +189,7 @@ public class GraphTester
 	 * @param graph graph to add an edge
 	 *	@author	Jeremy Lee
 	 */
-	public static void addEdge(Fleur<String> graph){
+	public static void addEdge(Fleury<String> graph){
 		System.out.println("First Intersection? ");
 		String firstInter = userScanner.nextLine();
 		System.out.println("Second Intersection? ");
@@ -203,7 +203,7 @@ public class GraphTester
 	 * @param graph graph to remove an edge
 	 *	@author	Jeremy Lee
 	 */
-	public static void removeEdge(Fleur<String> graph, StackInterface<String> removed){
+	public static void removeEdge(Fleury<String> graph, StackInterface<String> removed){
 		System.out.println("First Intersection? ");
 		String firstInter = userScanner.nextLine();
 		System.out.println("Second Intersection? ");
@@ -224,7 +224,7 @@ public class GraphTester
 	 * @param removed Stack of edges that were removed that are linked to the graph
 	 *	@author	Jeremy Lee
 	 */
-	public static void undoEdgeRemoval(Fleur<String> graph, StackInterface<String> removed){
+	public static void undoEdgeRemoval(Fleury<String> graph, StackInterface<String> removed){
 		if(!removed.isEmpty()){
 			String first = removed.pop(); String second = removed.pop();
 			System.out.println("Undo of street between " + second + " and " + first + " successful!");
@@ -234,23 +234,23 @@ public class GraphTester
 			System.out.println("Nothing to undo!");
 		}
 	}
-	/**	fills a new Fleur object filled with the information from the input txt file. Each line is read in and split into the name of the
+	/**	fills a new Fleury object filled with the information from the input txt file. Each line is read in and split into the name of the
 	* 	street itself and the two other streets it crosses. Vertices are named using the name of the street/the other street it crosses.
 	* 	(Ex. street 1 crosses street 2 and street 3 the two vertices are street 1/street 2 and street 1/street 3)
 	* 	These pieces are then checked to ensure that an intersection is not the same as another swapped(Ex. Street 1/street 2 == street 2/street 1)
-	* 	and corrected if so. All relevant edges are then added to the Fleur object
-	*	@return	Fleur<String> a new fleur graph that has been filled with the information from the txt file that was
+	* 	and corrected if so. All relevant edges are then added to the Fleury object
+	*	@return	Fleury<String> a new fleury graph that has been filled with the information from the txt file that was
 	*	read in
 	*	@author	Andrew Goodman
 	*
 	*/
 	
-	public static Fleur<String> fillFleur(){
+	public static Fleury<String> fillFleury(){
 		/* TO-DO
 		*Should now be working 100% let me know if you find an issue
 		*/
 		Scanner fileScan = openInputFile();
-		Fleur<String> newFleur = new Fleur<String>();
+		Fleury<String> newFleury = new Fleury<String>();
 		ArrayList<String> previousStreets = new ArrayList<String>();
 		while(fileScan != null && fileScan.hasNext()) {
 			String line = fileScan.nextLine().toLowerCase();
@@ -302,11 +302,11 @@ public class GraphTester
 				System.out.println("adding: " + streetName+"/"+secondInterSec);
 				previousStreets.add(streetName+"/"+secondInterSec);
 			}*/
-				newFleur.addEdge(fullInter1,fullInter2, 0);
+				newFleury.addEdge(fullInter1,fullInter2, 0);
 
 			
 		}
-		return newFleur;
+		return newFleury;
 		
 	}
 	
