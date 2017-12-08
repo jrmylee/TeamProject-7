@@ -49,7 +49,7 @@ class Fleury<E> extends Graph<E>
 		
 		if(vertexSet.isEmpty()
 		   || !isEulerCircuit()
-		   || isDisconnected())
+		   || hasDisconnectedEdges())
 			return eulerCircuit;
 		
 		// Initialize currentVertex to that which contains E start
@@ -239,6 +239,41 @@ class Fleury<E> extends Graph<E>
 		{
 			return true;
 		}
+		return false;
+	}
+	
+	/**
+	 * Checks if there are any edges disconnected from the main graph.
+	 * @return boolean	returns true if there any edges disconnected from the starting vertex.
+	 * @author Ali Masood
+	 */
+	public boolean hasDisconnectedEdges()
+	{
+		if(isDisconnected())
+		{
+			Iterator<Entry<E, Vertex<E>>> vertSetIter = vertexSet.entrySet().iterator(); //Iterator for vertexSet
+			Entry<E,Vertex<E>> vertexSetEntry;
+			Vertex<E> currVertex;
+			
+			// Visit every vertex reachable from start
+			breadthFirstTraversal(start, new CountVisitor());
+			
+			// For every vertex
+			while(vertSetIter.hasNext())
+			{
+				vertexSetEntry = vertSetIter.next();
+				currVertex = vertexSetEntry.getValue();
+				
+				// If it it is visited && it has ANY edges, return false
+				if(!currVertex.isVisited()
+				    && currVertex.adjList.size() > 0)
+				{
+					return true;
+				}
+			}
+		}
+		
+		// Otherwise return false
 		return false;
 	}
 }

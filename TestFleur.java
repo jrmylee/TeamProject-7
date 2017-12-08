@@ -134,7 +134,15 @@ public class TestFleur {
 		System.out.println("Graph with even, but disconnected, vertices:");
 		fillFleurDisconnected(fleur_graph);
 		runTests(fleur_graph);
-				
+		
+		//Disconnected Graph, two isolated vertices with no edges
+		System.out.println("Graph with three connected vertices, and three vertices with no edges");
+		fillFleurDisconnected(fleur_graph);
+		fleur_graph.remove("D", "E");
+		fleur_graph.remove("D", "F");
+		fleur_graph.remove("F", "E");
+		runTests(fleur_graph);
+		
 		// Two odd vertices
 		System.out.println("Graph with two odd vertices:");
 		fillFleur(fleur_graph, 3);
