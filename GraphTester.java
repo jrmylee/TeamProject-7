@@ -166,33 +166,39 @@ public class GraphTester
 	 *	@author	Jeremy Lee
 	 */
 	public static String solveGraph(Fleury<String> graph){
-		Fleury<String> temp = graph.makeDeepCopy();
-		ArrayList<String> list = temp.applyFleury(temp.getStart());
 		String output = "";
-		String next;
-		output += ("\nBeginning intersection: " + list.get(0) + "\n");
-		for(int i = 0; i < list.size()-1; i++){
-			String first = list.get(i).split("/")[0];
-			String second = list.get(i).split("/")[1];
 
-			if(list.get(i+1).contains(first)){
-				if(first.compareTo(list.get(i+1).split("/")[0]) == 0){
-					next = list.get(i+1).split("/")[1];
-				}else{
-					next = list.get(i+1).split("/")[0];
-				}
-				output += first +" from " + second + " to " + next + "\n";
-			}else if(list.get(i+1).contains(second)){
-				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
-					next = list.get(i+1).split("/")[1];
-				}else{
-					next = list.get(i+1).split("/")[0];
-				}
-				output+= second + " from " + first + " to " + next + "\n";
+		if(graph.isEulerCircuit()){
+			Fleury<String> temp = graph.makeDeepCopy();
+			ArrayList<String> list = temp.applyFleury(temp.getStart());
+			String next;
+			output += ("\nBeginning intersection: " + list.get(0) + "\n");
+			for(int i = 0; i < list.size()-1; i++){
+				String first = list.get(i).split("/")[0];
+				String second = list.get(i).split("/")[1];
 
+				if(list.get(i+1).contains(first)){
+					if(first.compareTo(list.get(i+1).split("/")[0]) == 0){
+						next = list.get(i+1).split("/")[1];
+					}else{
+						next = list.get(i+1).split("/")[0];
+					}
+					output += first +" from " + second + " to " + next + "\n";
+				}else if(list.get(i+1).contains(second)){
+					if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
+						next = list.get(i+1).split("/")[1];
+					}else{
+						next = list.get(i+1).split("/")[0];
+					}
+					output+= second + " from " + first + " to " + next + "\n";
+
+				}
 			}
+			output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
+		}else{
+			output = "not an Euler Circuit!";
 		}
-		output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
+
 		return output;
 	}
 
