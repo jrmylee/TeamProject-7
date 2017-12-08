@@ -166,6 +166,7 @@ public class GraphTester
 	 *	@author	Jeremy Lee
 	 */
 	public static String solveGraph(Fleury<String> graph){
+<<<<<<< HEAD
 		Fleury<String> temp = graph.makeDeepCopy();
 		ArrayList<String> list = temp.applyFleury(temp.getStart());
 		String output = "";
@@ -180,19 +181,68 @@ public class GraphTester
 					next = list.get(i+1).split("/")[1];
 				}else{
 					next = list.get(i+1).split("/")[0];
+=======
+		String output = ""; 
+		if(graph.isEulerCircuit()) {
+			Fleury<String> temp = graph.makeDeepCopy();
+			ArrayList<String> list = temp.applyFleury(temp.getStart());
+			String next = "";
+			output += ("\nBeginning intersection: " + list.get(0) + "\n");
+			for(int i = 0; i < list.size()-1; i++){
+				String[] allAtInter1 = list.get(i).split("/");
+				String[] allAtInter2 = list.get(i+1).split("/");
+				for(int x = 0 ; x < allAtInter1.length; x++) {
+					for(int y = 0; y < allAtInter2.length; y++) {
+						if(allAtInter1[x].compareTo(allAtInter2[y]) == 0) {
+							next = allAtInter1[x];
+						}
+					}
 				}
-				output += first +" from " + second + " to " + next + "\n";
-			}else if(list.get(i+1).contains(second)){
-				if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
-					next = list.get(i+1).split("/")[1];
-				}else{
-					next = list.get(i+1).split("/")[0];
+				output += "take \"" + next + "\" from \"";
+				for(int x = 0; x < allAtInter1.length; x++) {
+					if(allAtInter1[x].compareTo(next) != 0) {
+							output += allAtInter1[x] + " and ";
+					}
+>>>>>>> a0db9caa3b9fcaf0c4df2ec960982c91eeed7bf6
 				}
-				output+= second + " from " + first + " to " + next + "\n";
+				output = output.substring(0, output.length() - 5);
+				output += "\" to \"";
+				for(int x = 0; x < allAtInter2.length; x++) {
+					if(allAtInter2[x].compareTo(next) != 0) {
+						output += allAtInter2[x] + " and ";
+					}
+				}
+				output = output.substring(0, output.length() - 5);
+				output += "\"\n";
+				//String first = list.get(i).split("/")[0];
+				//String second = list.get(i).split("/")[1];
 
+				/*if(list.get(i+1).contains(first)){
+					if(first.compareTo(list.get(i+1).split("/")[0]) == 0){
+						next = list.get(i+1).split("/")[1];
+					}else{
+						next = list.get(i+1).split("/")[0];
+					}
+					output += first +" from " + second + " to " + next + "\n";
+				}else if(list.get(i+1).contains(second)){
+					if(second.compareTo(list.get(i+1).split("/")[0]) == 0){
+						next = list.get(i+1).split("/")[1];
+					}else{
+						next = list.get(i+1).split("/")[0];
+					}
+					output+= second + " from " + first + " to " + next + "\n";
+
+<<<<<<< HEAD
 			}
+=======
+				}*/
+			}
+			output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
+		}else {
+			output = "Not an euler circuit";
+>>>>>>> a0db9caa3b9fcaf0c4df2ec960982c91eeed7bf6
 		}
-		output += "\nEnding intersection: " + list.get(list.size()-1) + "\n";
+		
 		return output;
 	}
 
