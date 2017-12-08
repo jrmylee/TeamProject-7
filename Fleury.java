@@ -276,5 +276,42 @@ class Fleury<E> extends Graph<E>
 		// Otherwise return false
 		return false;
 	}
+	
+	public String adjTableStr()
+	{
+	      Iterator<Entry<E, Vertex<E>>> vertTter;
+	      String output = "";
+
+	      output += "------------------------ \n";
+	      Iterator<Entry<E, Vertex<E>>>  vertIter = vertexSet.entrySet().iterator();
+	      while( vertIter.hasNext() )
+	      {
+	         Vertex<E> currVertex = vertIter.next().getValue();
+	         
+	         output += vectorAdjStr(currVertex);
+	      }
+	      output += "\n";
+	      return output;
+	}
+	   public String vectorAdjStr(Vertex<E> vert)
+	   {
+		   String output = "";
+	      Iterator<Entry<E, Pair<Vertex<E>, Double>>> iter ;
+	      Entry<E, Pair<Vertex<E>, Double>> entry;
+	      Pair<Vertex<E>, Double> pair;
+	      
+	      output += "Adj List for " + vert.data + ": ";
+	      iter = vert.adjList.entrySet().iterator();
+	      while( iter.hasNext() )
+	      {
+	         entry = iter.next();
+	         pair = entry.getValue();
+	         output += pair.first.data + "("
+	            + String.format("%3.1f", pair.second)
+	            + ") ";
+	      }
+	      output += "\n";
+	      return output;
+	   }
 }
 
