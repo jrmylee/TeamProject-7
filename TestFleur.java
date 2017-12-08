@@ -10,10 +10,9 @@ public class TestFleur {
 	/**
 	 * Fill a Fleur<string> graph with a number of nodes.
 	 * @param fleur_graph	The graph to fill.
-	 * @param numbernodes	The number of nodes to fill with.
 	 * @author Ali Masood
 	 */
-	public static void fillFleur(Fleur<String> fleur_graph, int number_vertices)
+	public static void fillFleur(Fleury<String> fleur_graph, int number_vertices)
 	{
 		fleur_graph.clear();
 		for(int i = 0; i < number_vertices; i++)
@@ -32,7 +31,7 @@ public class TestFleur {
 	 * @param fleur_graph	the graph to fill
 	 * @author Ali Masood
 	 */
-	public static void fillFleurDisconnected(Fleur<String> fleur_graph)
+	public static void fillFleurDisconnected(Fleury<String> fleur_graph)
 	{
 		fleur_graph.clear();
 		
@@ -50,7 +49,7 @@ public class TestFleur {
 	 * @param fleur_graph the graph to remove from
 	 * @author Ali Masood
 	 */
-	public static void testRemove(Fleur<String> fleur_graph)
+	public static void testRemove(Fleury<String> fleur_graph)
 	{
 		System.out.println("Removing A-C, B-C connections:");
 		fleur_graph.remove("A", "C");
@@ -65,9 +64,9 @@ public class TestFleur {
 	 * @param fleur_graph
 	 * @author Ali Masood
 	 */
-	public static void testApplyFleur(Fleur<String> fleur_graph)
+	public static void testApplyFleur(Fleury<String> fleur_graph)
 	{
-		ArrayList<String> solution = fleur_graph.applyFleur("A");
+		ArrayList<String> solution = fleur_graph.applyFleury("A");
 		// Solution contains order of vertices data visited
 		
 		System.out.println("Fleur Solution:");
@@ -87,7 +86,7 @@ public class TestFleur {
 	 * @param fleur_graph	
 	 * @author Ali Masood
 	 */
-	public static void runTests(Fleur<String> fleur_graph)
+	public static void runTests(Fleury<String> fleur_graph)
 	{
 		System.out.println("----------------------------------------------");
 		System.out.println("Adjacency Table:");
@@ -104,7 +103,7 @@ public class TestFleur {
 	 * @author Ali Masood
 	 */
 	public static void main(String[] args) {
-		Fleur<String> fleur_graph= new Fleur<>();	// Graph to manipulate
+		Fleury<String> fleur_graph= new Fleury<>();	// Graph to manipulate
 		
 		// Three Vertices, Complete Graph
 		System.out.println("Graph with three vertices:");
