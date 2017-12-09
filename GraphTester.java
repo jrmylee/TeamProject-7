@@ -77,7 +77,7 @@ public class GraphTester
 						System.out.println("Enter a filename: ");
 						String name = userScanner.nextLine();
 						try {
-							graph.writeToTextFile(new FileWriter(new File(name)), solveGraph(graph));
+							graph.writeToTextFile(new FileWriter(new File(name)), graph.adjTableStr());
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}

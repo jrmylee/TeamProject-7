@@ -293,25 +293,25 @@ class Fleury<E> extends Graph<E>
 	      output += "\n";
 	      return output;
 	}
-	   public String vectorAdjStr(Vertex<E> vert)
-	   {
-		   String output = "";
-	      Iterator<Entry<E, Pair<Vertex<E>, Double>>> iter ;
-	      Entry<E, Pair<Vertex<E>, Double>> entry;
-	      Pair<Vertex<E>, Double> pair;
-	      
-	      output += "Adj List for " + vert.data + ": ";
-	      iter = vert.adjList.entrySet().iterator();
-	      while( iter.hasNext() )
-	      {
-	         entry = iter.next();
-	         pair = entry.getValue();
-	         output += pair.first.data + "("
-	            + String.format("%3.1f", pair.second)
-	            + ") ";
-	      }
-	      output += "\n";
-	      return output;
-	   }
+   public String vectorAdjStr(Vertex<E> vert)
+   {
+	   String output = "";
+      Iterator<Entry<E, Pair<Vertex<E>, Double>>> iter ;
+      Entry<E, Pair<Vertex<E>, Double>> entry;
+      Pair<Vertex<E>, Double> pair;
+      
+      output += "Adj List for " + vert.data + ": ";
+      iter = vert.adjList.entrySet().iterator();
+      while( iter.hasNext() )
+      {
+         entry = iter.next();
+         pair = entry.getValue();
+         output += pair.first.data + "("
+            + String.format("%3.1f", pair.second)
+            + ") ";
+      }
+      output += "\n";
+      return output;
+   }
 }
 
